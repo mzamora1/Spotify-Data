@@ -23,12 +23,13 @@ function App() {
     const hashes = afterHash.split("&").map(hash => hash.split("="))//split hash string into property, value pairs
     setAccess_token(hashes[0][1]);
     console.log("set Access token to: " + access_token)
+    console.log(window.location.pathname)
   }, [access_token])
   
-  console.log("app render")
+  
   return (
     access_token ? (//if access_token exists then display app
-      <Router>
+      <Router basename="Spotify-Data">
         <div>
           <Navbar />
           <Switch>
