@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/Spotify-Data/static/css/main.9e6e4a7c.chunk.css",
-    "main.js": "/Spotify-Data/static/js/main.e2c2608d.chunk.js",
-    "main.js.map": "/Spotify-Data/static/js/main.e2c2608d.chunk.js.map",
+    "main.js": "/Spotify-Data/static/js/main.ca3fdc56.chunk.js",
+    "main.js.map": "/Spotify-Data/static/js/main.ca3fdc56.chunk.js.map",
     "runtime-main.js": "/Spotify-Data/static/js/runtime-main.18e6be18.js",
     "runtime-main.js.map": "/Spotify-Data/static/js/runtime-main.18e6be18.js.map",
-    "static/js/2.020d2160.chunk.js": "/Spotify-Data/static/js/2.020d2160.chunk.js",
-    "static/js/2.020d2160.chunk.js.map": "/Spotify-Data/static/js/2.020d2160.chunk.js.map",
+    "static/js/2.258dfc09.chunk.js": "/Spotify-Data/static/js/2.258dfc09.chunk.js",
+    "static/js/2.258dfc09.chunk.js.map": "/Spotify-Data/static/js/2.258dfc09.chunk.js.map",
     "index.html": "/Spotify-Data/index.html",
     "static/css/main.9e6e4a7c.chunk.css.map": "/Spotify-Data/static/css/main.9e6e4a7c.chunk.css.map",
-    "static/js/2.020d2160.chunk.js.LICENSE.txt": "/Spotify-Data/static/js/2.020d2160.chunk.js.LICENSE.txt"
+    "static/js/2.258dfc09.chunk.js.LICENSE.txt": "/Spotify-Data/static/js/2.258dfc09.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.18e6be18.js",
-    "static/js/2.020d2160.chunk.js",
+    "static/js/2.258dfc09.chunk.js",
     "static/css/main.9e6e4a7c.chunk.css",
-    "static/js/main.e2c2608d.chunk.js"
+    "static/js/main.ca3fdc56.chunk.js"
   ]
 }
