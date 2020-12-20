@@ -33,7 +33,7 @@ function App() {
         <div>
           <Navbar accessToken={access_token}/>
           <Switch>
-            <Route path="/" >
+            <Route exact path="/" >
               <TopUserItems search="Tracks" accessToken={access_token}/>
             </Route>
             <Route path="/topArtists">

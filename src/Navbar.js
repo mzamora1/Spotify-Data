@@ -19,7 +19,7 @@ function Navbar(props) {
             <nav>    
                 <ul className={isClicked ? "list open":"list"} >
                     <li className="list-item" name="top songs">
-                        <Link to="/topSongs" onClick={handleClick}>Top Songs</Link>
+                        <Link to="/" onClick={handleClick}>Top Songs</Link>
                     </li>
                     <li className="list-item" name="top artists">
                         <Link to="/topArtists" onClick={handleClick}>Top Artists</Link>
