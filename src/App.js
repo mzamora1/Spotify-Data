@@ -3,7 +3,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
 } from "react-router-dom";
 import Navbar from "./Navbar";
 import Login from "./Login";
@@ -34,8 +33,7 @@ function App() {
         <div>
           <Navbar accessToken={access_token}/>
           <Switch>
-            <Redirect from={`${window.location.pathname}`} to="/topSongs"/>
-            <Route path="/topSongs" >
+            <Route path="/" >
               <TopUserItems search="Tracks" accessToken={access_token}/>
             </Route>
             <Route path="/topArtists">
