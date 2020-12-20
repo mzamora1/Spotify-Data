@@ -6,6 +6,7 @@ array.fill(1); //must fill with values or else map will not work
 
 function Login() {
     function redirect(){
+        //window.location.href = "https://accounts.spotify.com/authorize?client_id=b48ae6f543f941a5be1084b45ed74b13&redirect_uri=https://mzamora1.github.io/Spotify-Data/&scope=user-top-read&response_type=token";
         window.location.href = "https://accounts.spotify.com/authorize?client_id=b48ae6f543f941a5be1084b45ed74b13&redirect_uri=http://localhost:3000/topSongs&scope=user-top-read&response_type=token"
     }
 

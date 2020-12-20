@@ -1,3 +1,6 @@
+:root{
+  --spotifyGreen: #1DB954;
+}
 * {
   margin: 0;
   padding: 0;
@@ -7,12 +10,13 @@ body{
   width: 100vw;
   height: 100vh;
   overflow-x: hidden;
+  background-color: #191414;
 }
 
 #svgWrapper{
   position: absolute;
   top: 30%;
-  left: 20%;
+  left: 30px;
   width: 50%;
   max-width: 500px;
   min-width: 300px;
@@ -44,14 +48,14 @@ body{
 
 #loginBtn{
   width: 50%;
-  font-size: 40px;
-  border: none;
-  background: #404040;
-  color: #ffffff;
+  font-size: 30px;
+  border: 5px solid #fff;
+  background: #161212;
+  color: #fff;
   font-weight: 100;
   padding: .7em;
   text-transform: uppercase;
-  border-radius: 6px;
+  border-radius: 50px;
   display: block;
   transition: all 0.3s ease 0s;
 }
@@ -64,34 +68,111 @@ body{
   cursor: pointer;
 }
 
-nav{
-  background-color: #191414;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 80px;
-  width: 100vw;
+header{
   position: fixed;
   top: 0;
   z-index: 2;
+  height: 80px;
+  width: 100%;
+  background-color: #000000;/* Spotify black */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .logo{
   color: #1DB954;
   font-family: 'Inter', sans-serif;
   font-size: 2em;
   font-weight: 800;
+  position: absolute;
+  left: 10px;
 }
-
 .list{
   list-style: none;
   display: flex;
-  justify-content: space-around;
-  width: 50%;
+  justify-content: space-evenly;
+  margin: 0 auto;
+  width: 50vw;
 }
 .list li a{
+  border: white solid;
+  padding: .5em 1em;
+  border-radius: 50px;
+  font-size: 1em;
+  letter-spacing: 2px;
   text-decoration: none;
   color: white;
+  transition: all .3s ease 0s;
 }
+.list li a:hover{
+  background-color: #1DB954;
+  border: none;
+  color: black;
+  letter-spacing: 5px;
+  font-weight: 700;
+}
+.hamburger{
+  display: none;
+  position: absolute;
+  margin-left: 1.5em;
+  cursor: pointer;
+  z-index: 3;
+}
+
+@media only screen and (max-width: 968px){
+  .list{
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: #191414;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 2;
+    clip-path: circle(10% at 90% -10%);
+    -webkit-clip-path: circle(10% at 10% -10%);
+    transition: all .8s ease-in;
+  }
+  .list.open{
+    opacity: 1;
+    clip-path: circle(130% at 90% -10%);
+    -webkit-clip-path: circle(150% at 10% -10%);
+  }
+  .line{
+    width: 30px;
+    height: 3px;
+    background-color: white;
+    margin-top: 5px;
+    transition: all .8s ease-in;
+  }
+  .line.rotateLeft{
+    margin-bottom: .4em;
+    transform: rotate(45deg);
+  }
+  .line.rotateRight{
+    margin-top: -.7em;
+    transform: rotate(-45deg);
+  }
+  .line.remove{
+    opacity: 0;
+    transition: all 0s;
+  }
+  .logo{
+    position: relative;
+  }
+  .hamburger{
+    position: absolute;
+    left: 10px;
+    display: block;
+  }
+  header nav ul li{
+    margin: 10% auto;
+  }
+}
+
+
 
 #canvasContainer{
   width: 100vw;
@@ -107,13 +188,18 @@ nav{
   background: rgba(255,255,255, 0.2);
   backdrop-filter: blur(30px);
   position: relative;
-  top: -110px;
   padding: 1em 0;
+  border-radius: 0 0 25px 25px;
+  top: -110px;
 }
 
 .ListItem{
   max-width: 640px;
   margin: 0 auto;
+  color: black;
+}
+.ListItem img{
+  border-radius: 25px;
 }
 
 .artistInfo{
@@ -122,6 +208,7 @@ nav{
   background: rgba(255,255,255, 0.2);
   backdrop-filter: blur(30px);
   position: relative;
-  top: -78px;
   padding: 1em 0;
+  border-radius: 0 0 25px 25px;
+  top: -78px;
 }

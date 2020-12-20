@@ -6,7 +6,7 @@ export default function List(props){
     console.log("render list")
     return (
         <div>
-            <h1 style={{textAlign: 'center', margin: '1em 0'}}>Your Top 20 {props.search} In Order</h1>
+            <h1 style={{textAlign: 'center', margin: '1em 0'}}>Your Top {props.data.length} {props.search} In Order</h1>
             {props.search === "Tracks" && props.data.map((data, index) => <SongListItem song={data} key={index} index={index}/>)}
             {props.search === "Artists" &&  props.data.map((data, index) => <ArtistListItem artist={data} key={index} index={index}/>)}
         </div>

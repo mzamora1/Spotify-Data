@@ -37,11 +37,10 @@ class TopUserItems extends Component { //takes search category and accessToken a
     componentDidMount() {
         this.componentWillReceiveProps(this.props);
     }
-
+    
     componentWillReceiveProps(nextProps){
-        console.log(nextProps.search.toLowerCase())
         this.setState({isLoaded: false});
-        fetch(`https://api.spotify.com/v1/me/top/${nextProps.search.toLowerCase()}?time_range=short_term`, {
+        fetch(`https://api.spotify.com/v1/me/top/${nextProps.search.toLowerCase()}?time_range=medium_term`, {
             method: "GET",
             headers: {
                 "Authorization": "Bearer " + nextProps.accessToken,
@@ -72,12 +71,23 @@ class TopUserItems extends Component { //takes search category and accessToken a
             const {items} = this.state;
             const {search} = this.props;
             return (
-                <>
-                    <h1 style={{textAlign: 'center', marginTop: "calc(80px + 1em)"}}>Your Top 20 {search} Ranked By Popularity</h1>
+                <div style={{textAlign: 'center', color: "#fff", marginTop: "calc(80px + 1em)"}}>
+                    {/* <div style={{height: "100vh", display: 'flex', flexDirection: "column", alignItems: "center", justifyContent: "flex-start", lineHeight: "15vh"}}>
+                        <h1>Select time range</h1>
+                        <p><b>Short term </b>is from the last 4 weeks</p>
+                        <p><b>Medium term </b>is from the last 6 months to a year</p>
+                        <p><b>Long term </b>is from the beginning of your account</p>
+                        <select className="dropdown">
+                            <option value="short_term">Short Term</option>
+                            <option value="medium_term">Medium Term</option>
+                            <option value="long_term">Long Term</option>
+                        </select>
+                    </div> */}
+                    <h1 >Your Top {items.length} {search} Ranked By Popularity</h1>
                     <PopularityChart data={items}/>
                     <List data={items} search={search}/>
                     {console.log(items)}
-                </>
+                </div>
                 
             )
         }

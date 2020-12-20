@@ -7,7 +7,7 @@ import {
 import Navbar from "./Navbar";
 import Login from "./Login";
 import TopUserItems from "./TopUserItems";
-import UserProfile from "./UserProfile";
+import Reccomendations from "./Reccomendations";
 import './App.css';
 
 
@@ -38,8 +38,8 @@ function App() {
             <Route path="/topArtists">
               <TopUserItems search="Artists" accessToken={access_token}/>
             </Route>
-            <Route path="/myAccount">
-              <UserProfile/>
+            <Route path="/reccomendations">
+              <Reccomendations/>
             </Route>
           </Switch>
         </div>

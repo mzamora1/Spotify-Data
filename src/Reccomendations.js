@@ -1,11 +1,11 @@
 import React from 'react'
 
-function UserProfile() {
+function Reccomendations() {
     return (
         <div style={{marginTop: "calc(80px + 1em)"}}>
-            user profile
+            Reccomendations
         </div>
     )
 }
 
-export default UserProfile
+export default Reccomendations

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Chart from "chart.js";
-
+Chart.defaults.global.defaultFontColor = "white";
 //let chart;
 class PopularityChart extends Component {
     
@@ -49,7 +49,6 @@ class PopularityChart extends Component {
                             min: 0,
                             max: 100,
                             //fontSize: 7,
-                            fontColor: "#000",
                             padding: 15
                         
                         }
