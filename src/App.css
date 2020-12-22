@@ -80,6 +80,7 @@ header{
   justify-content: center;
 }
 .logo{
+  text-decoration: none;
   color: #1DB954;
   font-family: 'Inter', sans-serif;
   font-size: 2em;
