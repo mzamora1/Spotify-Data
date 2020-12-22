@@ -63,7 +63,7 @@ function App() {
             </Route>
             <Route path="/topArtists">
               <div style={{textAlign: 'center', color: "#fff", marginTop: "calc(80px + 1em)"}}>
-                <h1 >Your Top {artists.items.length} Tracks Ranked By Popularity</h1>
+                <h1 >Your Top {artists.items.length} Artists Ranked By Popularity</h1>
                 <PopularityChart data={artists.items}/>
                 <h1 style={{textAlign: 'center', margin: '1em 0'}}>Your Top {artists.length} Artists In Order</h1>
                 <List data={artists.items} search="Artists" accessToken={access_token}/>
