@@ -8,7 +8,7 @@ function Navbar(props) {
     }
     return (
         <header>
-            <div className="logo" >Spotify Data</div>
+            <a className="logo" href="#top">Spotify Data</a>
             
             <div className="hamburger" id="hamburger" onClick={handleClick}>
                 <div className={isClicked ? "line rotateLeft":"line"}></div>
