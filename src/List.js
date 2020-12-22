@@ -11,9 +11,6 @@ export default function List(props){
     )
 }
 const useAudio = url => {
-    if(url){
-
-    }
     const [audio] = useState(new Audio(url));
     const [playing, setPlaying] = useState(false);
   
@@ -55,8 +52,8 @@ const useFetch = (url, options) => {
 };
 
 function SongListItem(props){
-    const {album, name, artists, preview_url} = props.song;
-    console.log(props.song);
+    const [{album, name, artists, preview_url}] = useState(props.song);
+    //console.log(props.song);
     const [playing, toggle] = useAudio(preview_url);
     return (
         <>

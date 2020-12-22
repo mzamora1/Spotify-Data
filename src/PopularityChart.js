@@ -8,8 +8,8 @@ class PopularityChart extends Component {
         super(props);
         this.canvasRef = React.createRef();
     }
-    
-    componentDidMount(){
+
+    createChart = () => {
         let artists = this.props.data;
         artists.sort((a, b) => { //sort by popularity
             if(a.popularity > b.popularity) return -1;
@@ -21,7 +21,7 @@ class PopularityChart extends Component {
         let colors = [];
         let hue = 143;
         let lightness = 73;
-        artists.forEach(artist => { 
+        artists.forEach(artist => { //gather data on each item
             popularityData.push(artist.popularity);
             artistNames.push(artist.name);
             colors.push(`hsl(${hue += 0}, 75%, ${lightness -= 3}%)`);
@@ -70,9 +70,15 @@ class PopularityChart extends Component {
             }
         });
     }
-    componentWillUnmount(){
-        console.log("chart updated")
+    
+    componentDidMount(){
+        this.createChart();
+    }
+    
+    componentDidUpdate(){
+        console.log("updated")
         this.chart.destroy();
+        this.createChart();
     }
     
     render(){

@@ -31,7 +31,7 @@ function App() {
         }
       })
       .then(response => response.json())
-      .then(json => setSongs(json))
+      .then(json => setSongs(json));
 
       fetch("https://api.spotify.com/v1/me/top/artists?time_range=medium_term", {
         method: "GET",
@@ -40,7 +40,7 @@ function App() {
         }
       })
       .then(response => response.json())
-      .then(json => setArtists(json))
+      .then(json => setArtists(json));
     }
   }, [access_token])
 
