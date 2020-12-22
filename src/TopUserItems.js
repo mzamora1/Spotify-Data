@@ -31,14 +31,17 @@ class TopUserItems extends Component { //takes search category and accessToken a
             images: a.images,
             id: a.id,
             followers: a.followers,
+            genres: a.genres,
         }
     }
 
     componentDidMount() {
+        console.log("mounted")
         this.componentWillReceiveProps(this.props);
     }
     
     componentWillReceiveProps(nextProps){
+        console.log("recieved new props")
         this.setState({isLoaded: false});
         fetch(`https://api.spotify.com/v1/me/top/${nextProps.search.toLowerCase()}?time_range=medium_term`, {
             method: "GET",
@@ -49,7 +52,7 @@ class TopUserItems extends Component { //takes search category and accessToken a
         .then(response => response.json())
         .then(
             (result) => {
-                //console.log(result["items"])
+                console.log(result["items"])
                 if(nextProps.search === "Tracks" && result.items) this.setState({...this.state, items: result.items.map(this.songData)});
                 if(nextProps.search === "Artists"  && result.items) this.setState({items: result.items.map(this.artistData)});
                 this.setState({isLoaded: true});
@@ -60,16 +63,16 @@ class TopUserItems extends Component { //takes search category and accessToken a
             }
         );
     }
-
+    
     render(){
-        console.log("render user items")
+        //console.log("render user items")
         if (this.state.error) {
             return <div>Error: {this.state.error.message}</div>;
         } else if (!this.state.isLoaded) {
             return <div>Loading...</div>;
         } else {
             const {items} = this.state;
-            const {search} = this.props;
+            const {search, accessToken} = this.props;
             return (
                 <div style={{textAlign: 'center', color: "#fff", marginTop: "calc(80px + 1em)"}}>
                     {/* <div style={{height: "100vh", display: 'flex', flexDirection: "column", alignItems: "center", justifyContent: "flex-start", lineHeight: "15vh"}}>
@@ -85,8 +88,8 @@ class TopUserItems extends Component { //takes search category and accessToken a
                     </div> */}
                     <h1 >Your Top {items.length} {search} Ranked By Popularity</h1>
                     <PopularityChart data={items}/>
-                    <List data={items} search={search}/>
-                    {console.log(items)}
+                    <List data={items} search={search} accessToken={accessToken}/>
+                    {/* {console.log(items)} */}
                 </div>
                 
             )
