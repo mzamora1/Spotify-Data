@@ -100,7 +100,7 @@ function ArtistListItem(props){
             <div className={!isClicked ? "flipCardInner" : "flipCardInner rotateItem"}>
                 <div className="flipCardFront">
                     <img src={images[0].url}  width="100%" className="artistImg" alt="artist image"/>
-                    <div className="artistInfo" >
+                    <div className="artistInfo" style={!isClicked && {opacity: 0}} >
                         <div style={{marginLeft: "1em", flexDirection: "column"}}>
                             <h1 style={{fontSize: "clamp(30px, 5vw, 40px)"}}>{name}</h1>
                             <h2 style={{fontWeight: '500', textAlign: 'left'}}>More Info <i style={{color: "#1DB954"}} className="far fa-arrow-alt-circle-right"></i></h2>
@@ -109,7 +109,7 @@ function ArtistListItem(props){
                     </div>
                 </div>
                 <div className="flipCardBack">
-                <img src={images[0].url}  width="100%" className="artistImg" alt="artist image"/>
+                    <img src={images[0].url}  width="100%" className="artistImg" alt="artist image"/>
                     <div className="backArtistInfo">
                         <h1 style={{fontSize: "clamp(20px, 5vw, 40px)", fontWeight: '800'}}>{name}</h1>
                         <h2>Followers: {followers.total}</h2>
@@ -126,9 +126,7 @@ function ArtistListItem(props){
                                 </ul>
                             </h2>
                         </div>
-                        
                     </div>
-                    
                 </div>
             </div>
         </div>  

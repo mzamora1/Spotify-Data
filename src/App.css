@@ -203,6 +203,7 @@ header{
 .ListItem{
   max-width: 640px;
   margin: 0 auto;
+  margin-bottom: 10px;
   color: black;
   text-align: left;
   cursor: pointer;
@@ -235,7 +236,6 @@ header{
 .flipCardBack{
   position: absolute;
   top: 0;
-  background-color: #191414;
   transform: rotateY(180deg);
 }
 
@@ -247,7 +247,7 @@ header{
   position: relative;
   padding: 1em 0;
   border-radius: 0 0 25px 25px;
-  top: -108px;
+  top: 110px;
 }
 .backArtistInfo{
   position: absolute;
