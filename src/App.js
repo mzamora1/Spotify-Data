@@ -74,11 +74,11 @@ function App() {
                 <h1>Select a time range</h1>
                 <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
                   <p>Based off of your streams from the past 4 week</p>
-                  <Link id="short_term" onClick={handleClick} to="/topSongs">Short Term</Link>
+                  <Link id="short_term" onClick={handleClick} to="/topArtists">Short Term</Link>
                   <p>Based off of your streams from the past 6 months</p>
-                  <Link id="medium_term" onClick={handleClick} to="/topSongs">Medium Term</Link>
+                  <Link id="medium_term" onClick={handleClick} to="/topArtists">Medium Term</Link>
                   <p>Based off of your all time streams, could be several years</p>
-                  <Link id="long_term" onClick={handleClick} to="/topSongs">Long Term</Link>
+                  <Link id="long_term" onClick={handleClick} to="/topArtists">Long Term</Link>
                 </div>
                 
               </div>
