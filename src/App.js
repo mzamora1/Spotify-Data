@@ -87,7 +87,7 @@ function App() {
               <div style={{textAlign: 'center', color: "#fff", marginTop: "calc(80px + 1em)"}}>
                 <h1 >Your Top {songs.items.length} Tracks Ranked By Popularity</h1>
                 <PopularityChart data={songs.items}/>
-                <h1 style={{textAlign: 'center', margin: '1em 0'}}>Your Top {songs.length} Songs In Order</h1>
+                <h1 style={{textAlign: 'center', margin: '1em 0'}}>Your Top {songs.items.length} Songs In Order</h1>
                 <List data={songs.items} search="Tracks" accessToken={access_token}/>
               </div>
             </Route>
