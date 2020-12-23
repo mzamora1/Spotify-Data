@@ -10,8 +10,8 @@ class PopularityChart extends Component {
     }
 
     createChart = () => {
-        let artists = this.props.data;
-        artists.sort((a, b) => { //sort by popularity
+        let items = this.props.data;
+        items.sort((a, b) => { //sort by popularity
             if(a.popularity > b.popularity) return -1;
             else if(a.popularity < b.popularity) return 1;
             return 0;
@@ -21,7 +21,7 @@ class PopularityChart extends Component {
         let colors = [];
         let hue = 143;
         let lightness = 73;
-        artists.forEach(artist => { //gather data on each item
+        items.forEach(artist => { //gather data on each item
             popularityData.push(artist.popularity);
             artistNames.push(artist.name);
             colors.push(`hsl(${hue += 0}, 75%, ${lightness -= 3}%)`);
@@ -74,7 +74,7 @@ class PopularityChart extends Component {
     componentDidMount(){
         this.createChart();
     }
-    
+
     componentDidUpdate(){
         console.log("updated")
         this.chart.destroy();

@@ -19,13 +19,16 @@ function Navbar(props) {
             <nav>    
                 <ul className={isClicked ? "list open":"list"} >
                     <li className="list-item" name="top songs">
-                        <Link to="/" onClick={handleClick}>Top Songs</Link>
+                        <Link to="/topSongs" onClick={handleClick}>Top Songs</Link>
                     </li>
                     <li className="list-item" name="top artists">
                         <Link to="/topArtists" onClick={handleClick}>Top Artists</Link>
                     </li>
-                    <li className="list-item" name="my account">
+                    <li className="list-item" name="reccomendations">
                         <Link to="/reccomendations" onClick={handleClick}>Reccomendations</Link>
+                    </li>
+                    <li className="list-item" name="timeRange">
+                        <Link to="/" onClick={handleClick}>Select Time Range</Link>
                     </li>
                 </ul>
             </nav>

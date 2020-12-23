@@ -3,6 +3,11 @@ import React, {useState, useEffect} from 'react'
 
 export default function List(props){
     console.log("render list")
+    props.data.sort((a, b) => { //sort by user rank
+        if(a.rank < b.rank) return -1;
+        else if(a.rank > b.rank) return 1;
+        return 0;
+    });
     return (
         <div className="itemList">
             {props.search === "Tracks" && props.data.map((data, index) => <SongListItem song={data} key={index} index={index}/>)}
@@ -52,7 +57,7 @@ const useFetch = (url, options) => {
 };
 
 function SongListItem(props){
-    const [{album, name, artists, preview_url}] = useState(props.song);
+    const {album, name, artists, preview_url} = props.song;
     //console.log(props.song);
     const [playing, toggle] = useAudio(preview_url);
     return (
@@ -97,24 +102,31 @@ function ArtistListItem(props){
                     <img src={images[0].url}  width="100%" className="artistImg" alt="artist image"/>
                     <div className="artistInfo" >
                         <div style={{marginLeft: "1em", flexDirection: "column"}}>
-                            <h1>{name}</h1>
-                            <h2>More Info <i style={{color: "#1DB954"}} className="far fa-arrow-alt-circle-right"></i></h2>
+                            <h1 style={{fontSize: "clamp(30px, 5vw, 40px)"}}>{name}</h1>
+                            <h2 style={{fontWeight: '500', textAlign: 'left'}}>More Info <i style={{color: "#1DB954"}} className="far fa-arrow-alt-circle-right"></i></h2>
                         </div>
-                        <h1 style={{marginLeft:"auto", marginRight: "1em", fontSize: "xxx-large"}}>#{props.index+1}</h1>
+                        <h1 style={{marginLeft:"auto", marginRight: "1em", fontSize: "clamp(35px, 5vw, 40px)"}}>#{props.index+1}</h1>
                     </div>
                 </div>
                 <div className="flipCardBack">
                 <img src={images[0].url}  width="100%" className="artistImg" alt="artist image"/>
                     <div className="backArtistInfo">
-                        <h1 style={{fontSize: "3em"}}>{name}</h1>
+                        <h1 style={{fontSize: "clamp(20px, 5vw, 40px)", fontWeight: '800'}}>{name}</h1>
                         <h2>Followers: {followers.total}</h2>
                         <h2>Popularity: {popularity} out of 100</h2>
-                        <h2>Genres: <span> {genres.map((genre, index) => index !== genres.length-1 ? `${genre}, ` :  genre)} </span></h2>
-                        <h2>Related Artists: 
-                            <ul style={{listStyle: 'inside', textAlign: 'left', marginLeft: "25%", marginTop: "0px"}}>
-                                {response.artists.map((artist, index) => index < 5 ? <li key={index}>{artist.name}</li> : null)}
-                            </ul>
-                        </h2>
+                        <div className="flexBox" style={{display: 'flex', justifyContent: 'space-evenly'}}>
+                            <h2>Genres: 
+                                <ul style={{position: 'relative', textAlign: 'center', borderTop: 'solid'}}> 
+                                    {genres.map((genre, index) => <li key={index} style={{padding: '5px', border: 'solid', borderTop: 'none'}}>{genre}</li>)} 
+                                </ul>
+                            </h2>
+                            <h2 style={{whiteSpace:"nowrap", marginLeft: '5px'}}>Related Artists: 
+                                <ul style={{position: 'relative', textAlign: 'center', borderTop: 'solid'}}>
+                                    {response.artists.map((artist, index) => index < 5 ? <li key={index} style={{padding: '5px', border: 'solid', borderTop: 'none'}}>{artist.name}{/*index !== 4 ? <hr style={{height: '1.5px', backgroundColor: 'black', color: 'black', border: 'none'}}/> : null*/}</li> : null)}
+                                </ul>
+                            </h2>
+                        </div>
+                        
                     </div>
                     
                 </div>
