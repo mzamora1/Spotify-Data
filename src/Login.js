@@ -44,7 +44,7 @@ function Login() {
         })
     }, [])
     return (
-        <div className="login" >
+        <div className="login">
             <div id="svgWrapper">
                 <svg id="spot" viewBox="0 0 500 200" preserveAspectRatio="xMinYMin meet" fill="none"> {/* svg was made using figma */}
                     <mask id="path-1-outside-1" maskUnits="userSpaceOnUse" x="0.639999" y="0.799988" width="489" height="89" fill="black">

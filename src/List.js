@@ -1,5 +1,5 @@
 
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 
 export default function List(props){
     console.log("render list")
@@ -10,16 +10,24 @@ export default function List(props){
     });
     return (
         <div className="itemList">
-            {props.search === "Tracks" && props.data.map((data, index) => <SongListItem song={data} key={index} index={index}/>)}
-            {props.search === "Artists" &&  props.data.map((data, index) => <ArtistListItem artist={data} key={index} index={index} accessToken={props.accessToken}/>)}
+            {props.search === "Tracks" && props.data.map((data, index) => <SongListItem song={data} key={data.id} index={index}/>)}
+            {props.search === "Artists" &&  props.data.map((data, index) => <ArtistListItem artist={data} key={data.id} index={index} accessToken={props.accessToken}/>)}
         </div>
     )
 }
 const useAudio = url => {
     const [audio] = useState(new Audio(url));
+    //console.log(audio)
     const [playing, setPlaying] = useState(false);
   
-    const toggle = () => setPlaying(!playing);
+    const toggle = () => {
+        setPlaying(!playing);
+        return playing;
+    }
+
+    useEffect(() => {
+        audio.pause();
+    }, [])
   
     useEffect(() => {
        if(url) playing ? audio.play() : audio.pause();
@@ -57,14 +65,13 @@ const useFetch = (url, options) => {
 };
 
 function SongListItem(props){
-    const {album, name, artists, preview_url} = props.song;
-    //console.log(props.song);
+    const {album, name, artists, preview_url, rank} = props.song;
     const [playing, toggle] = useAudio(preview_url);
+    
     return (
         <>
         <div className="ListItem"  onClick={toggle}>
             <img src={album.images[0].url} width="100%" className="songImg" alt="album cover"/>
-            
             <div className="songInfo">
                 {preview_url ? <i style={{margin: "0 15px", fontSize: "clamp(20px, 3vw, 40px)"}} className={!playing ? "fas fa-play" : "fas fa-pause"} /> : null}
                 <div style={{marginLeft: "1em", flexDirection: "column"}}>
@@ -72,7 +79,7 @@ function SongListItem(props){
                     <h2 style={{fontSize: "clamp(15px, 3vw, 30px)"}}>By: {artists[0].name}</h2>
                     <h2 style={{fontSize: "clamp(15px, 3vw, 30px)"}}>Album: {album.name}</h2>
                 </div>
-                <h1 style={{marginLeft:"auto", marginRight: "15px", fontSize: "xxx-large"}}>#{props.index+1}</h1>
+                <h1 style={{marginLeft:"auto", marginRight: "15px", fontSize: "xxx-large"}}>#{rank}</h1>
             </div>
         </div>
         </>
@@ -80,7 +87,7 @@ function SongListItem(props){
 }
 
 function ArtistListItem(props){
-    const {name, popularity, images, id, followers, genres} = props.artist;
+    const {name, popularity, images, id, followers, genres, rank} = props.artist;
     const [isClicked, setIsClicked] = useState(false);
     const handleClick = () => {
         setIsClicked(!isClicked);
@@ -105,7 +112,7 @@ function ArtistListItem(props){
                             <h1 style={{fontSize: "clamp(30px, 5vw, 40px)"}}>{name}</h1>
                             <h2 style={{fontWeight: '500', textAlign: 'left'}}>More Info <i style={{color: "#1DB954"}} className="far fa-arrow-alt-circle-right"></i></h2>
                         </div>
-                        <h1 style={{marginLeft:"auto", marginRight: "1em", fontSize: "clamp(35px, 5vw, 40px)"}}>#{props.index+1}</h1>
+                        <h1 style={{marginLeft:"auto", marginRight: "1em", fontSize: "clamp(35px, 5vw, 40px)"}}>#{rank}</h1>
                     </div>
                 </div>
                 <div className="flipCardBack">
@@ -116,13 +123,13 @@ function ArtistListItem(props){
                         <h2>Popularity: {popularity} out of 100</h2>
                         <div className="flexBox" style={{display: 'flex', justifyContent: 'space-evenly'}}>
                             <h2>Genres: 
-                                <ul style={{position: 'relative', textAlign: 'center', borderTop: 'solid'}}> 
-                                    {genres.map((genre, index) => <li key={index} style={{padding: '5px', border: 'solid', borderTop: 'none'}}>{genre}</li>)} 
+                                <ul style={{position: 'relative', textAlign: 'center', borderTop: 'solid', borderWidth: '1.5px'}}> 
+                                    {genres.map((genre, index) => <li key={index} style={{padding: '5px', border: 'solid', borderTop: 'none', borderWidth: '1.5px'}}>{genre}</li>)} 
                                 </ul>
                             </h2>
                             <h2 style={{whiteSpace:"nowrap", marginLeft: '5px'}}>Related Artists: 
-                                <ul style={{position: 'relative', textAlign: 'center', borderTop: 'solid'}}>
-                                    {response.artists.map((artist, index) => index < 5 ? <li key={index} style={{padding: '5px', border: 'solid', borderTop: 'none'}}>{artist.name}{/*index !== 4 ? <hr style={{height: '1.5px', backgroundColor: 'black', color: 'black', border: 'none'}}/> : null*/}</li> : null)}
+                                <ul style={{position: 'relative', textAlign: 'center', borderTop: 'solid', borderWidth: '1.5px'}}>
+                                    {response.artists.map((artist, index) => index < 5 ? <li key={index} style={{padding: '5px', border: 'solid', borderTop: 'none', borderWidth: '1.5px'}}>{artist.name}</li> : null)}
                                 </ul>
                             </h2>
                         </div>

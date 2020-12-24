@@ -34,7 +34,7 @@ function App() {
       })
       .then(response => response.json())
       .then(json => {
-        let temp = json.items.map((item, index) => item.rank = index)
+        let temp = json.items.map((item, index) => item.rank = index + 1)
         console.log(temp, json);
         setSongs(json)
       });
@@ -47,7 +47,7 @@ function App() {
       })
       .then(response => response.json())
       .then(json => {
-        let temp = json.items.map((item, index) => item.rank = index)
+        let temp = json.items.map((item, index) => item.rank = index + 1)
         console.log(temp, json);
         setArtists(json)
       });
@@ -56,24 +56,22 @@ function App() {
   }, [access_token, timeRange])
 
   function handleClick(event){
-    console.log(event)
+    //console.log(event)
     setTimeRange(event.target.id)
   }
 
-  
-  return (
+  if(!access_token) return <Login />
+  else return (
     artists && songs ? (//if data has been recieved
       <Router basename="Spotify-Data">
-        {/* {console.log(songs, artists)} */}
-        {/* {console.log("set Access token to: " + access_token)} */}
-        <div>
+        <div style={{overflow: "hidden"}}>
           <Navbar/>
           <Switch>
           <Route exact path="/" >
-              <div className="timeRange" style={{textAlign: 'center', color: "#fff", marginTop: "calc(80px + 1em)", width: '100vw', height: '100vh', overflow: "clip"}}>
+              <div className="timeRange" style={{textAlign: 'center', color: "#fff", marginTop: "calc(80px + 1em)", width: '100vw', height: 'calc(100vh - (80px + 1em))'}}>
                 <h1>Select a time range</h1>
                 <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
-                  <p>Based off of your streams from the past 4 week</p>
+                  <p>Based off of your streams from the past 4 weeks</p>
                   <Link id="short_term" onClick={handleClick} to="/topArtists">Short Term</Link>
                   <p>Based off of your streams from the past 6 months</p>
                   <Link id="medium_term" onClick={handleClick} to="/topArtists">Medium Term</Link>
@@ -106,8 +104,10 @@ function App() {
         </div>
       </Router>
     )
-    : (//else display login page
-      <Login />
+    : (//else display loading page
+      <div style={{width: "100vw", height: "100vh", display: "flex", alignItems: 'center', justifyContent: "center", color: "white"}}>
+        Loading...
+      </div>
     )
     
   );
