@@ -95,7 +95,7 @@ header{
   margin: 0 auto;
   width: 70vw;
 }
-.list li a{
+a:not(.logo){
   border: white solid;
   padding: .5em 1em;
   border-radius: 50px;
@@ -105,7 +105,7 @@ header{
   color: white;
   transition: all .3s ease 0s;
 }
-.list li a:hover{
+a:hover:not(.logo){
   background-color: #1DB954;
   border: none;
   color: black;
@@ -119,6 +119,15 @@ header{
   margin-left: 1.5em;
   cursor: pointer;
   z-index: 3;
+}
+
+.loading{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
 }
 
 @media only screen and (max-width: 1026px){
@@ -189,18 +198,9 @@ header{
 
 
 
-.songInfo{
-  display: flex;
-  align-items: center;
-  background: rgba(255,255,255, 0.2);
-  backdrop-filter: blur(30px);
-  position: relative;
-  padding: 1em 0;
-  border-radius: 0 0 25px 25px;
-  top: -100px;
-}
 
-.ListItem{
+
+.listItem{
   max-width: 640px;
   margin: 0 auto;
   margin-bottom: 10px;
@@ -208,8 +208,19 @@ header{
   text-align: left;
   cursor: pointer;
 }
-.ListItem img{
+.listItem img{
   border-radius: 25px;
+}
+.listItem h1{
+  font-size: clamp(20px, 5vw, 40px);
+}
+.listItem h2{
+  font-size: clamp(15px, 3vw, 30px);
+}
+.listItem .rank{
+  margin-left: auto;
+  margin-right: 1em;
+  font-size: clamp(35px, 5vw, 40px)
 }
 
 .flipCardInner{
@@ -220,9 +231,7 @@ header{
   transition: transform 0.8s;
   transform-style: preserve-3d;
 }
-/* .ListItem:hover .flipCardInner{
-  transform: rotateY(180deg);
-} */
+
 .rotateItem{
   transform: rotateY(180deg);
 }
@@ -239,7 +248,7 @@ header{
   transform: rotateY(180deg);
 }
 
-.artistInfo{
+.listInfo{
   display: flex;
   align-items: center;
   background: rgba(255,255,255, 0.2);
@@ -247,9 +256,9 @@ header{
   position: relative;
   padding: 1em 0;
   border-radius: 0 0 25px 25px;
-  /* top: 110px; */
-  bottom: 70px;
+  bottom: 65px;
 }
+
 .backArtistInfo{
   position: absolute;
   top: 10%;
@@ -266,38 +275,40 @@ header{
   font-weight: 500;
 }
 
-.backArtistInfo .flexBox h2{
+.tables h2{
   font-weight: 700;
 }
 
-.backArtistInfo ul{
-  list-style: inside none;
+.tables ul{
+  list-style: none;
   text-align: left;
   margin-top: 0px;
   font-weight: 500;
+  position: relative;
+  text-align: center;
+  border-top: solid;
+  border-width: 1.5px;
+}
+
+.tables li{
+  padding: 5px;
+  border: 1.5px solid;
+  border-top: none;
+}
+
+.timeRange{
+  text-align: center;
+  color: #fff;
+  margin-top: calc(80px + 1em);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: calc(100vh - (80px + 1em));
 }
 
 .timeRange p{
   margin-top: 5em;
   margin-bottom: 1em;
-}
-
-.timeRange a{
-  
-  border: white solid;
-  padding: .5em 1em;
-  border-radius: 50px;
-  font-size: 1em;
-  letter-spacing: 2px;
-  text-decoration: none;
-  color: white;
-  transition: all .3s ease 0s;
-}
-
-.timeRange a:hover{
-  background-color: #1DB954;
-  border: none;
-  color: black;
-  letter-spacing: 5px;
-  font-weight: 700;
 }

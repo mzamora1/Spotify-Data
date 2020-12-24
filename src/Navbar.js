@@ -1,23 +1,21 @@
 import React, {useState} from 'react';
 import {Link} from "react-router-dom";
 
-function Navbar(props) {
+export default function Navbar() {
     const [isClicked, setIsClicked] = useState(false);
-    function handleClick(){
-        setIsClicked(!isClicked);
-    }
+    const handleClick = () => setIsClicked(!isClicked);
     return (
         <header>
             <a className="logo" href="#top">Spotify Data</a>
             
-            <div className="hamburger" id="hamburger" onClick={handleClick}>
+            <div className="hamburger" onClick={handleClick}>
                 <div className={isClicked ? "line rotateLeft":"line"}></div>
                 <div className={isClicked ? "line remove":"line"}></div>
                 <div className={isClicked ? "line rotateRight":"line"}></div>
             </div>
     
             <nav>    
-                <ul className={isClicked ? "list open":"list"} >
+                <ul className={isClicked ? "list open" : "list"} >
                     <li className="list-item" name="top songs">
                         <Link to="/topSongs" onClick={handleClick}>Top Songs</Link>
                     </li>
@@ -35,5 +33,3 @@ function Navbar(props) {
         </header>
     )
 }
-
-export default Navbar

@@ -1,8 +1,7 @@
-
-import React, {useState, useEffect, useRef} from 'react'
+import React, {useState, useEffect} from 'react'
+import {useFetch} from './App'
 
 export default function List(props){
-    console.log("render list")
     props.data.sort((a, b) => { //sort by user rank
         if(a.rank < b.rank) return -1;
         else if(a.rank > b.rank) return 1;
@@ -10,24 +9,16 @@ export default function List(props){
     });
     return (
         <div className="itemList">
-            {props.search === "Tracks" && props.data.map((data, index) => <SongListItem song={data} key={data.id} index={index}/>)}
-            {props.search === "Artists" &&  props.data.map((data, index) => <ArtistListItem artist={data} key={data.id} index={index} accessToken={props.accessToken}/>)}
+            {props.search === "Tracks" && props.data.map(data => <SongListItem song={data} key={data.id}/>)}
+            {props.search === "Artists" &&  props.data.map(data => <ArtistListItem artist={data} accessToken={props.accessToken} key={data.id}/>)}
         </div>
     )
 }
+
 const useAudio = url => {
     const [audio] = useState(new Audio(url));
-    //console.log(audio)
     const [playing, setPlaying] = useState(false);
-  
-    const toggle = () => {
-        setPlaying(!playing);
-        return playing;
-    }
-
-    useEffect(() => {
-        audio.pause();
-    }, [])
+    const togglePlaying = () => setPlaying(!playing);
   
     useEffect(() => {
        if(url) playing ? audio.play() : audio.pause();
@@ -42,44 +33,24 @@ const useAudio = url => {
         }
     }, [audio]);
   
-    return [playing, toggle];
-};
-
-const useFetch = (url, options) => {
-    
-    const [response, setResponse] = React.useState(null);
-    const [error, setError] = React.useState(null);
-    React.useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const res = await fetch(url, options);
-          const json = await res.json();
-          setResponse(json);
-        } catch (error) {
-          setError(error);
-        }
-      };
-      fetchData();
-    }, []);
-    return { response, error };
+    return [playing, togglePlaying];
 };
 
 function SongListItem(props){
     const {album, name, artists, preview_url, rank} = props.song;
-    const [playing, toggle] = useAudio(preview_url);
-    
+    const [playing, togglePlaying] = useAudio(preview_url);
     return (
         <>
-        <div className="ListItem"  onClick={toggle}>
+        <div className="listItem"  onClick={togglePlaying}>
             <img src={album.images[0].url} width="100%" className="songImg" alt="album cover"/>
-            <div className="songInfo">
-                {preview_url ? <i style={{margin: "0 15px", fontSize: "clamp(20px, 3vw, 40px)"}} className={!playing ? "fas fa-play" : "fas fa-pause"} /> : null}
+            <div className="listInfo">
+                {preview_url && <i style={{marginLeft: "1em", fontSize: "clamp(20px, 3vw, 40px)"}} className={!playing ? "fas fa-play" : "fas fa-pause"} />}
                 <div style={{marginLeft: "1em", flexDirection: "column"}}>
-                    <h1 style={{fontSize: "clamp(20px, 5vw, 40px)"}}>{name}</h1>
-                    <h2 style={{fontSize: "clamp(15px, 3vw, 30px)"}}>By: {artists[0].name}</h2>
-                    <h2 style={{fontSize: "clamp(15px, 3vw, 30px)"}}>Album: {album.name}</h2>
+                    <h1>{name}</h1>
+                    <h2>By: {artists[0].name}</h2>
+                    <h2>Album: {album.name}</h2>
                 </div>
-                <h1 style={{marginLeft:"auto", marginRight: "15px", fontSize: "xxx-large"}}>#{rank}</h1>
+                <h1 className="rank">{rank && "#"+rank}</h1>
             </div>
         </div>
         </>
@@ -89,47 +60,43 @@ function SongListItem(props){
 function ArtistListItem(props){
     const {name, popularity, images, id, followers, genres, rank} = props.artist;
     const [isClicked, setIsClicked] = useState(false);
-    const handleClick = () => {
-        setIsClicked(!isClicked);
-    }
-    const url = `https://api.spotify.com/v1/artists/${id}/related-artists`
-    const {response, error} = useFetch(url, {
+    const url = `https://api.spotify.com/v1/artists/${id}/related-artists`;
+    const relatedArtists = useFetch(url, {
         method: "GET",
         headers: {
         "Authorization": "Bearer " + props.accessToken,
         }
     })
-    if(!response) return <div>Loading...</div>
-    else if(error) return <div>Error: {error.message}</div>
+    if(!relatedArtists) return <div>Loading...</div>
     return (
         <>
-        <div onClick={handleClick} className="ListItem" style={{perspective: "1000px"}}>
+        <div onClick={() => setIsClicked(!isClicked)} className="listItem" style={{perspective: "1000px"}}>
             <div className={!isClicked ? "flipCardInner" : "flipCardInner rotateItem"}>
                 <div className="flipCardFront">
-                    <img src={images[0].url}  width="100%" className="artistImg" alt="artist image"/>
-                    <div className="artistInfo" style={isClicked ? {opacity: 0} : {}} >
+                    <img src={images[0].url}  width="100%" alt="artist"/>
+                    <div className="listInfo" style={isClicked ? {opacity: 0, transition: "opacity .3s ease-in"} : {transition: "opacity .3s ease-in"}} >
                         <div style={{marginLeft: "1em", flexDirection: "column"}}>
-                            <h1 style={{fontSize: "clamp(30px, 5vw, 40px)"}}>{name}</h1>
+                            <h1>{name}</h1>
                             <h2 style={{fontWeight: '500', textAlign: 'left'}}>More Info <i style={{color: "#1DB954"}} className="far fa-arrow-alt-circle-right"></i></h2>
                         </div>
-                        <h1 style={{marginLeft:"auto", marginRight: "1em", fontSize: "clamp(35px, 5vw, 40px)"}}>#{rank}</h1>
+                        <h1 className="rank">{rank && "#"+rank}</h1>
                     </div>
                 </div>
                 <div className="flipCardBack">
-                    <img src={images[0].url}  width="100%" className="artistImg" alt="artist image"/>
+                    <img src={images[0].url}  width="100%" alt="artist"/>
                     <div className="backArtistInfo">
-                        <h1 style={{fontSize: "clamp(20px, 5vw, 40px)", fontWeight: '800'}}>{name}</h1>
+                        <h1 style={{fontWeight: '800'}}>{name}</h1>
                         <h2>Followers: {followers.total}</h2>
                         <h2>Popularity: {popularity} out of 100</h2>
-                        <div className="flexBox" style={{display: 'flex', justifyContent: 'space-evenly'}}>
+                        <div className="tables" style={{display: 'flex', justifyContent: 'space-evenly'}}>
                             <h2>Genres: 
-                                <ul style={{position: 'relative', textAlign: 'center', borderTop: 'solid', borderWidth: '1.5px'}}> 
-                                    {genres.map((genre, index) => <li key={index} style={{padding: '5px', border: 'solid', borderTop: 'none', borderWidth: '1.5px'}}>{genre}</li>)} 
+                                <ul> 
+                                    {genres.map((genre, index) => <li key={index}>{genre}</li>)} 
                                 </ul>
                             </h2>
                             <h2 style={{whiteSpace:"nowrap", marginLeft: '5px'}}>Related Artists: 
-                                <ul style={{position: 'relative', textAlign: 'center', borderTop: 'solid', borderWidth: '1.5px'}}>
-                                    {response.artists.map((artist, index) => index < 5 ? <li key={index} style={{padding: '5px', border: 'solid', borderTop: 'none', borderWidth: '1.5px'}}>{artist.name}</li> : null)}
+                                <ul>
+                                    {relatedArtists.artists.map((artist, index) => index < 5 && <li key={index}>{artist.name}</li>)}
                                 </ul>
                             </h2>
                         </div>
