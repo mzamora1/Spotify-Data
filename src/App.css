@@ -190,10 +190,9 @@ a:hover:not(.logo){
 
 
 
-#canvasContainer{
+.canvasContainer{
   width: 100vw;
   height: 100vh;
-  margin: 0;
 }
 
 
@@ -201,6 +200,7 @@ a:hover:not(.logo){
 
 
 .listItem{
+  perspective: 1000px;
   max-width: 640px;
   margin: 0 auto;
   margin-bottom: 10px;

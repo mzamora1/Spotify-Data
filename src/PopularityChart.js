@@ -4,24 +4,17 @@ Chart.defaults.global.defaultFontColor = "white";
 
 export default function PopularityChart(props){
     const canvasRef = useRef(null);
-
     useEffect(() => {
         let popularityData = [], artistNames = [], colors = [];
         let lightness = 73;
-
-        props.data.sort((a, b) => { //sort by popularity
-            if(a.popularity > b.popularity) return -1;
-            else if(a.popularity < b.popularity) return 1;
-            return 0;
-        })
-        .forEach(artist => { //gather data on each item
+        props.data.forEach(artist => { //gather data on each item
             popularityData.push(artist.popularity);
             artistNames.push(artist.name);
             colors.push(`hsl(143, 75%, ${lightness -= 3.25}%)`);
             //colors.push(`rgba(${Math.random()*256}, ${Math.random()*256}, ${Math.random()*256}, 0.7)`)
         });
 
-        let chart = new Chart(canvasRef.current, {
+        const chart = new Chart(canvasRef.current, {
             type: "horizontalBar",
             data: {
                 datasets: [{
@@ -39,7 +32,6 @@ export default function PopularityChart(props){
                 }
             }
         });
-
         return () => chart.destroy();
     })
 
