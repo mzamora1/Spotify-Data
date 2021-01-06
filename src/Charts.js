@@ -74,7 +74,6 @@ export function RadarChart({data, accessToken}){ //tracks only
         }
         catch(error){
             console.error(error);
-            return error;
         }
     }
     
