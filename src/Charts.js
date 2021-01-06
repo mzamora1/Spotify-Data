@@ -60,6 +60,7 @@ Array.prototype.average = function(prop) {
 export function RadarChart({data, accessToken}){ //tracks only
     const canvasRef = useRef(null);
     const [isLoading, setIsLoading] = useState(true);
+    const targetFeatures = ['danceability', 'energy', 'speechiness', 'acousticness', 'instrumentalness', 'liveness', 'valence'];
     async function fetchData(url){
         try{
             const response = await fetch(url,{
@@ -82,10 +83,10 @@ export function RadarChart({data, accessToken}){ //tracks only
         const url = "https://api.spotify.com/v1/audio-features/";
         for(let song of data){//gather audioFeatures from top songs
             let feature = await fetchData(url + song.id);
-            audioFeatures.push(feature);
+            if(feature) audioFeatures.push(feature);
         }
         for(let feature in audioFeatures[0]){
-            if(!lables.includes(feature) && audioFeatures[0][feature] < 1 && audioFeatures[0][feature] > 0){
+            if(targetFeatures.includes(feature)){
                 lables.push(feature);
             }
         }
@@ -146,13 +147,10 @@ export function RadarChart({data, accessToken}){ //tracks only
         }
         else {
             const lables = Object.keys(data).filter(key => {
-                if(data[key] < 1 && data[key] > 0) return key;
+                if(targetFeatures.includes(key)) return key;
                 return false;
             });
-            const values = Object.values(data).filter(value => {
-                if(value < 1 && value > 0) return value;
-                return false;
-            }).map(value => Math.round(value*100))
+            const values = lables.map(lable => Math.round(data[lable]*100))
             chart = makeRadarChart(lables, values); 
         }
         setIsLoading(false);
