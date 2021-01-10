@@ -23,22 +23,26 @@ const useAudio = url => {
     return [playing, setPlaying];
 };
 
+
 export function SongListItem({song, rank, globalPlaying}){
     const {album, name, artists, preview_url} = song;
     const [playing, setPlaying] = useAudio(preview_url);
     const [isClicked , setIsClicked] = useState(false);
+
+    const handleClick = () => setIsClicked(!isClicked)
     useEffect(() => {
        setPlaying(false);
        setIsClicked(false);
     }, [globalPlaying])
-
+    
     useEffect(() => {
         if(!globalPlaying && isClicked) setPlaying(true)
     }, [isClicked])
+    
     return (
         <>
         {console.log(playing)}
-        <div className="listItem"  onClick={() => setIsClicked(!isClicked)}>
+        <div className="listItem"  onClick={handleClick}>
             <div className={playing ? "flipCardInner rotateItem": "flipCardInner"}>
                 <div className="flipCardFront">
                     <img src={album.images[0].url} width="100%" className="songImg" alt="album cover"/>
@@ -53,7 +57,7 @@ export function SongListItem({song, rank, globalPlaying}){
                     </div>
                 </div>
                 <div className="flipCardBack">
-                    <img src={album.images[0].url} width="100%" className="songImg" alt="album cover"/>
+                    <img src={album.images[0].url} width="100%" className="songImg" alt="album cover" style={{position:'relative', zIndex: 0}}/>
                     <RadarChart data={song}/>
                 </div>
             </div>
@@ -62,12 +66,12 @@ export function SongListItem({song, rank, globalPlaying}){
     )
 }
 
-export function ArtistListItem({artist, rank}){
+export function ArtistListItem({artist, rank, globalClicked}){
     const {name, popularity, images, id, followers, genres} = artist;
     const [isClicked, setIsClicked] = useState(false);
     const url = `https://api.spotify.com/v1/artists/${id}/related-artists`;
     const relatedArtists = useFetch(url)
-    if(!relatedArtists) return <div>Loading...</div>
+
     return (
         <>
         <div onClick={() => setIsClicked(!isClicked)} className="listItem">
@@ -99,7 +103,7 @@ export function ArtistListItem({artist, rank}){
                             </h2>
                             <h2 style={{whiteSpace:"nowrap", marginLeft: '5px'}}>Related Artists: 
                                 <ul>
-                                    {relatedArtists.artists.map((a, index) => index < 5 && <li key={index}>{a.name}</li>)}
+                                    {relatedArtists ? relatedArtists.artists.map((a, index) => index < 5 && <li key={index}>{a.name}</li> ) : <div>Loading...</div>}
                                 </ul>
                             </h2>
                         </div>

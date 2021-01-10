@@ -14,8 +14,7 @@ import {accessToken, useFetch} from './fetch';
 
 export function App() {
   const [timeRange, setTimeRange] = useState("medium_term");
-  const [isPlaying, setIsPlaying] = useState(false);
-  const handleClick = (event) => setTimeRange(event.target.id);
+  const [isPlaying, setIsPlaying] = useState(true);
   const songs = useFetch(`https://api.spotify.com/v1/me/top/tracks?time_range=${timeRange}`, [timeRange]);
   const artists = useFetch(`https://api.spotify.com/v1/me/top/artists?time_range=${timeRange}`, [timeRange]);
   const ids = [];
@@ -23,10 +22,7 @@ export function App() {
     ids.push(songs.items[i].id)
   }
   const reccomendations = useFetch(songs && "https://api.spotify.com/v1/recommendations?seed_tracks=" + String(ids), [songs])
-  function click(){
-    setIsPlaying(!isPlaying);
-    console.log(isPlaying)
-  }
+  
   if(!accessToken) return <Login />;
   else return (
     artists && songs && reccomendations ? (//if data has been recieved
@@ -39,11 +35,11 @@ export function App() {
                   <h1>Select a time range</h1>
                   <div style={{}}>
                     <p>Based off of your streams from the past 4 weeks</p>
-                    <Link id="short_term" onClick={handleClick} to="/topArtists">Short Term</Link>
+                    <Link id="short_term" onClick={(event) => setTimeRange(event.target.id)} to="/topArtists">Short Term</Link>
                     <p>Based off of your streams from the past 6 months</p>
-                    <Link id="medium_term" onClick={handleClick} to="/topArtists">Medium Term</Link>
+                    <Link id="medium_term" onClick={(event) => setTimeRange(event.target.id)} to="/topArtists">Medium Term</Link>
                     <p>Based off of your all time streams, could be several years</p>
-                    <Link id="long_term" onClick={handleClick} to="/topArtists">Long Term</Link>
+                    <Link id="long_term" onClick={(event) => setTimeRange(event.target.id)} to="/topArtists">Long Term</Link>
                   </div>
                   
                 </div>
@@ -55,7 +51,7 @@ export function App() {
                   <h1 >Your Music Taste</h1>
                   <RadarChart data={songs.items}/>
                   <h1 style={{margin: '1em 0'}}>Your Top {songs.items.length} Songs In Order</h1>
-                  <div onClick={click}>
+                  <div onClick={() => setIsPlaying(!isPlaying)}>
                     {songs.items.map((data, index) => <SongListItem song={data} key={data.id} rank={index+1} globalPlaying={isPlaying}/>)}
                   </div>
                 </div>
@@ -65,14 +61,14 @@ export function App() {
                   <h1 >Your Top {artists.items.length} Artists Ranked By Popularity</h1>
                   <PopularityChart data={artists.items}/>
                   <h1 style={{margin: '1em 0'}}>Your Top {artists.items.length} Artists In Order</h1>
-                  {artists.items.map((data, index) => <ArtistListItem artist={data} key={data.id} rank={index+1}/>)}
+                  {artists.items.map((data, index) => <ArtistListItem artist={data} key={data.id} rank={index+1} globalClicked={isPlaying}/>)}
                 </div>
             </Route>
             <Route path="/reccomendations">
                 <div style={{marginTop: "calc(80px + 1em)"}}>
                   <h1 style={{margin: "1em 0"}}>Songs you might like</h1>
                   <h3 style={{marginBottom: "1em"}}>Based on your top 5 songs</h3>
-                  <div onClick={click}>
+                  <div onClick={() => setIsPlaying(!isPlaying)}>
                     {reccomendations.tracks.map((data) => <SongListItem song={data} key={data.id} globalPlaying={isPlaying}/>)}
                   </div>
                 </div>
