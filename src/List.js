@@ -5,7 +5,6 @@ import { RadarChart } from './Charts';
 const useAudio = url => {
     const [audio] = useState(new Audio(url));
     const [playing, setPlaying] = useState(false);
-    const togglePlaying = () => setPlaying(!playing);
   
     useEffect(() => {
        if(url) playing ? audio.play() : audio.pause();
@@ -15,23 +14,31 @@ const useAudio = url => {
         if(url){
             audio.addEventListener('ended', () => setPlaying(false));
             return () => {
+                audio.pause();
                 audio.removeEventListener('ended', () => setPlaying(false));
             };
         }
     }, [audio]);
   
-    return [playing, togglePlaying];
+    return [playing, setPlaying];
 };
 
 export function SongListItem({song, rank, globalPlaying}){
     const {album, name, artists, preview_url} = song;
-    const [playing, togglePlaying] = useAudio(preview_url);
+    const [playing, setPlaying] = useAudio(preview_url);
+    const [isClicked , setIsClicked] = useState(false);
     useEffect(() => {
-        if(globalPlaying && playing) togglePlaying();
+       setPlaying(false);
+       setIsClicked(false);
     }, [globalPlaying])
+
+    useEffect(() => {
+        if(!globalPlaying && isClicked) setPlaying(true)
+    }, [isClicked])
     return (
         <>
-        <div className="listItem"  onClick={togglePlaying}>
+        {console.log(playing)}
+        <div className="listItem"  onClick={() => setIsClicked(!isClicked)}>
             <div className={playing ? "flipCardInner rotateItem": "flipCardInner"}>
                 <div className="flipCardFront">
                     <img src={album.images[0].url} width="100%" className="songImg" alt="album cover"/>

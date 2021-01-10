@@ -9,24 +9,21 @@ function map(value, a, b, c, d){
 }
 
 Array.prototype.average = function(property) {
-    let total = 0
-    for (let i = 0; i < this.length; i++) {
-       if(this[i] && typeof this[i][property] == 'number') total += this[i][property]
-       else throw new Error(`${this[i][property]} is not an number`);
-    }
-    return Math.round((total / this.length)*100);
+    return Math.round(this.reduce((total, current) => total + current[property], 0) / this.length * 100)
 }
+
 
 export function PopularityChart(props){
     const canvasRef = useRef(null);
     useEffect(() => {
         const popularityData = [], artistNames = [], colors = [];
+        const maxPopularity = props.data.reduce(( max, cur ) => Math.max( max, cur.popularity), 0);
+        const minPopularity = props.data.reduce(( min, cur ) => Math.min( min, cur.popularity), 100);
         props.data.forEach(item => { //gather data on each item
             popularityData.push(item.popularity);
             artistNames.push(item.name);
-            const lightness = map(item.popularity, 30, 95, 8, 70)
+            const lightness = map(item.popularity, minPopularity, maxPopularity, 10, 70)
             colors.push(`hsl(143, 75%, ${lightness}%)`);
-            //colors.push(`rgba(${Math.random()*256}, ${Math.random()*256}, ${Math.random()*256}, 0.7)`)
         });
 
         const chart = new Chart(canvasRef.current, {
@@ -107,13 +104,14 @@ export function RadarChart({data}){ //tracks only
     useEffect(() => {
         setIsLoading(true);
         if(response){
-            if(Array.isArray(response) && response.length > 1) {
-                const lables = Object.keys(response[0]).filter(key => targetFeatures.includes(key) ? true : false);
+            if(Array.isArray(response) && response.length > 1 && response[0]) {
+                console.log(response)
+                const lables = Object.keys(response[0]).filter(key => targetFeatures.includes(key));
                 const averages = lables.map(lable => response.average(lable));
                 return makeRadarChart(lables, averages)
             }
             else if(response.constructor === Object){
-                const lables = Object.keys(response).filter(key => targetFeatures.includes(key) ? true : false);
+                const lables = Object.keys(response).filter(key => targetFeatures.includes(key));
                 const values = lables.map(lable => Math.round(response[lable]*100))
                 return makeRadarChart(lables, values);
             }
@@ -121,7 +119,7 @@ export function RadarChart({data}){ //tracks only
     }, [response])
 
     return (
-        <div style={Array.isArray(data) ? {width: '100vw', height: '50vh', marginTop: '10px'} : {position: 'absolute', top: '10%', width: '100%', height: '60%',background: 'rgba(255,255,255, 0.2)', backdropFilter: 'blur(30px)'}}>
+        <div style={Array.isArray(data) ? {width: '100vw', height: '50vh', marginTop: '10px'} : {position: 'absolute', top: '10%', width: '100%', height: '60%',background: 'rgba(255,255,255, 0.2)', backdropFilter: 'blur(300px)'}}>
             {isLoading && <div>...Loading</div>}
             <canvas style={Array.isArray(data) ? {padding: '0 10px'} : {padding: '10px 10px'}} ref={canvasRef}/>
         </div>

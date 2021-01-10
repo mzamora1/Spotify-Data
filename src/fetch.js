@@ -5,41 +5,45 @@ const hashes = afterHash.split("&").map(hash => hash.split("="))//split hash str
 export const accessToken = hashes[0][1]
 
 export function useFetch(urlsOrUrl, dependencies = []){
-  const [response, setResponse] = useState(Array.isArray(urlsOrUrl) ? [] : null);
-  
-  useEffect(() => {
-    const fetchData = async (url) => {
-      try{
-        const res = await fetch(url, {
-          method: "GET",
-          headers: {
-          "Authorization": "Bearer " + accessToken,
-          }
-        });
-        const json = await res.json(); 
-        return json
-      }
-      catch(error){
-        console.warn(error);
-      }
-    };
-    async function init(){
-        if(Array.isArray(urlsOrUrl)){
-            const responses = [];
-            for(let url of urlsOrUrl){
-                const res = await fetchData(url);
-                responses.push(res);
+    const [response, setResponse] = useState(Array.isArray(urlsOrUrl) ? [] : null);
+    
+
+    useEffect(() => {
+        const fetchData = async (url) => {
+            let res;
+            try{
+                res = await fetch(url, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": "Bearer " + accessToken
+                    }
+                });
+                const json = await res.json(); 
+                return json
             }
-            setResponse(responses);
+            catch(error){
+                console.warn(error);
+            }
+        };
+        async function init(){
+            if(Array.isArray(urlsOrUrl)){
+                const responses = [];
+                for(let url of urlsOrUrl){
+                   // console.time("start")
+                    let res = await fetchData(url);
+                    //console.timeEnd("start")
+                    if(res) responses.push(res);
+                }
+                setResponse(responses);
+            }
+            else if(urlsOrUrl.constructor === String){
+                const res = await fetchData(urlsOrUrl)
+                if(res) setResponse(res);
+            }
         }
-        else if(urlsOrUrl.constructor === String){
-            const resopnse = await fetchData(urlsOrUrl)
-            setResponse(resopnse);
-        }
-    }
-    if(urlsOrUrl && accessToken) init();
-    return () => setResponse(null);
-  }, dependencies);
+        if(urlsOrUrl && accessToken) init();
+        return () => setResponse(null);
+    }, dependencies);
 
   return response;
 }
