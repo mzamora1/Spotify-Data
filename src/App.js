@@ -5,9 +5,9 @@ import {
   Route,
   Link,
 } from "react-router-dom";
+import './App.css';
 import Navbar from "./Navbar";
 import Login from "./Login";
-import './App.css';
 import {PopularityChart, RadarChart} from "./Charts";
 import {SongListItem, ArtistListItem} from "./List"
 import {accessToken, useFetch} from './fetch';

@@ -10,9 +10,9 @@ export function useFetch(urlsOrUrl, dependencies = []){
 
     useEffect(() => {
         const fetchData = async (url) => {
-            let res;
+            console.count("fetched");
             try{
-                res = await fetch(url, {
+                const res = await fetch(url, {
                     method: "GET",
                     headers: {
                         "Authorization": "Bearer " + accessToken
@@ -29,9 +29,7 @@ export function useFetch(urlsOrUrl, dependencies = []){
             if(Array.isArray(urlsOrUrl)){
                 const responses = [];
                 for(let url of urlsOrUrl){
-                   // console.time("start")
-                    let res = await fetchData(url);
-                    //console.timeEnd("start")
+                    const res = await fetchData(url);
                     if(res) responses.push(res);
                 }
                 setResponse(responses);

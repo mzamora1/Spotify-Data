@@ -1,9 +1,16 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
 
 export default function Navbar() {
     const [isClicked, setIsClicked] = useState(false);
     const handleClick = () => setIsClicked(!isClicked);
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [isClicked])
+    window.onbeforeunload = function(event) {
+        event.preventDefault();
+        event.returnValue = "If you click ok then the website will crash"
+    }
     return (
         <header>
             <a className="logo" href="#top">Spotify Data</a>
