@@ -61,7 +61,7 @@ export function App() {
                   <h1 >Your Top {artists.items.length} Artists Ranked By Popularity</h1>
                   <PopularityChart data={artists.items}/>
                   <h1 style={{margin: '1em 0'}}>Your Top {artists.items.length} Artists In Order</h1>
-                  {artists.items.map((data, index) => <ArtistListItem artist={data} key={data.id} rank={index+1} globalClicked={isPlaying}/>)}
+                  {artists.items.map((data, index) => <ArtistListItem artist={data} key={data.id} rank={index+1}/>)}
                 </div>
             </Route>
             <Route path="/reccomendations">

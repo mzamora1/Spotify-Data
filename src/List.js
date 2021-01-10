@@ -66,11 +66,10 @@ export function SongListItem({song, rank, globalPlaying}){
     )
 }
 
-export function ArtistListItem({artist, rank, globalClicked}){
+export function ArtistListItem({artist, rank}){
     const {name, popularity, images, id, followers, genres} = artist;
     const [isClicked, setIsClicked] = useState(false);
-    const url = `https://api.spotify.com/v1/artists/${id}/related-artists`;
-    const relatedArtists = useFetch(url)
+    const relatedArtists = useFetch(`https://api.spotify.com/v1/artists/${id}/related-artists`)
 
     return (
         <>
