@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {useFetch} from './App'
+import {useFetch} from './fetch'
 import { RadarChart } from './Charts';
 
 const useAudio = url => {
@@ -23,37 +23,31 @@ const useAudio = url => {
     return [playing, togglePlaying];
 };
 
-export function SongListItem(props){
-    const {album, name, artists, preview_url, id} = props.song;
+export function SongListItem({song, rank, globalPlaying}){
+    const {album, name, artists, preview_url} = song;
     const [playing, togglePlaying] = useAudio(preview_url);
-    const [isClicked, setIsClicked] = useState(false);
-    const analysis = useFetch("https://api.spotify.com/v1/audio-features/"+id);
-    function handleClick(){
-        togglePlaying();
-        setIsClicked(!isClicked);
-    }
     useEffect(() => {
-        if(!playing) setIsClicked(false);
-    }, [playing])
+        if(globalPlaying && playing) togglePlaying();
+    }, [globalPlaying])
     return (
         <>
-        <div className="listItem"  onClick={handleClick}>
-            <div className={!isClicked || !playing ? "flipCardInner" : "flipCardInner rotateItem"}>
+        <div className="listItem"  onClick={togglePlaying}>
+            <div className={playing ? "flipCardInner rotateItem": "flipCardInner"}>
                 <div className="flipCardFront">
                     <img src={album.images[0].url} width="100%" className="songImg" alt="album cover"/>
-                    <div className="listInfo" style={isClicked && playing ? {opacity: 0, transition: "opacity .3s ease-in"} : {transition: "opacity .3s ease-in"}}>
+                    <div className="listInfo" style={playing ? {opacity: 0, transition: "opacity .3s ease-in"} : {transition: "opacity .3s ease-in"}}>
                         {preview_url && <i style={{marginLeft: "1em", fontSize: "clamp(20px, 3vw, 40px)"}} className={!playing ? "fas fa-play" : "fas fa-pause"} />}
                         <div style={{marginLeft: "1em", flexDirection: "column"}}>
                             <h1>{name}</h1>
                             <h2>By: {artists[0].name}</h2>
                             <h2>Album: {album.name}</h2>
                         </div>
-                        <h1 className="rank">{props.rank && "#"+props.rank}</h1>
+                        <h1 className="rank">{rank && "#"+rank}</h1>
                     </div>
                 </div>
                 <div className="flipCardBack">
                     <img src={album.images[0].url} width="100%" className="songImg" alt="album cover"/>
-                    {analysis && <RadarChart data={analysis}/>}
+                    <RadarChart data={song}/>
                 </div>
             </div>
         </div>
@@ -61,8 +55,8 @@ export function SongListItem(props){
     )
 }
 
-export function ArtistListItem(props){
-    const {name, popularity, images, id, followers, genres} = props.artist;
+export function ArtistListItem({artist, rank}){
+    const {name, popularity, images, id, followers, genres} = artist;
     const [isClicked, setIsClicked] = useState(false);
     const url = `https://api.spotify.com/v1/artists/${id}/related-artists`;
     const relatedArtists = useFetch(url)
@@ -79,7 +73,7 @@ export function ArtistListItem(props){
                             <h1>{name}</h1>
                             <h2 style={{fontWeight: '500', textAlign: 'left'}}>More Info <i style={{color: "#1DB954"}} className="far fa-arrow-alt-circle-right"></i></h2>
                         </div>
-                        <h1 className="rank">{props.rank && "#"+props.rank}</h1>
+                        <h1 className="rank">{rank && "#"+rank}</h1>
                     </div>
 
                 </div>
@@ -98,7 +92,7 @@ export function ArtistListItem(props){
                             </h2>
                             <h2 style={{whiteSpace:"nowrap", marginLeft: '5px'}}>Related Artists: 
                                 <ul>
-                                    {relatedArtists.artists.map((artist, index) => index < 5 && <li key={index}>{artist.name}</li>)}
+                                    {relatedArtists.artists.map((a, index) => index < 5 && <li key={index}>{a.name}</li>)}
                                 </ul>
                             </h2>
                         </div>

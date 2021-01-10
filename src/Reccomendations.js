@@ -1,6 +1,6 @@
 import React from 'react'
 import {SongListItem} from "./List"
-import {useFetch} from "./App"
+import {useFetch} from "./fetch"
 
 function Reccomendations(props) {
     const ids = [];
