@@ -22,16 +22,13 @@ export const accessToken = hashes[0][1]
 
 
 
-(function draw() {
-    requestAnimationFrame(draw);
-})()
-
 export function useFetch(urlsOrUrl, dependencies = []){
     const [response, setResponse] = useState(Array.isArray(urlsOrUrl) ? [] : null);
     
     useEffect(() => {
         const fetchData = async (url) => {
             console.count("fetched");
+            requestAnimationFrame(() => {});
             try{
                 const res = await fetch(url, {
                     method: "GET",
