@@ -19,7 +19,10 @@ export const accessToken = hashes[0][1]
 //     }, dependencies)
 //     return response;
 // }
-
+function draw(){
+    setTimeout(() => requestAnimationFrame(draw), 1000/60)
+}
+draw();
 
 //console.log(new Worker('/fetchWorker.js'));
 export function useFetch(urlsOrUrl, dependencies = []){

@@ -108,10 +108,21 @@ export function RadarChart({data}){ //tracks only
     useEffect(() => {
         if(Array.isArray(response) && response.length > 1 && response[0]) {
             const lables = Object.keys(response[0]).filter(key => targetFeatures.includes(key));
+            const a = [], min = [], max = [];
+            console.time('loop')
+            for(let lable of lables){
+                a.push(Math.round(response.reduce((total, current) => total + current[lable], 0) / response.length * 100));
+                min.push(Math.round(response.reduce((min, cur) => Math.min(min, cur[lable]), 100) * 100));
+                max.push(Math.round(response.reduce((max, cur) => Math.max(max, cur[lable]), 0) * 100));
+            }
+            console.timeEnd('loop')
+            console.time('callback loop')
             const averages = lables.map(lable => Math.round(response.reduce((total, current) => total + current[lable], 0) / response.length * 100));
             const minValues = lables.map(lable => Math.round(response.reduce((min, cur) => Math.min(min, cur[lable]), 100) * 100));
             const maxValues = lables.map(lable => Math.round(response.reduce((max, cur) => Math.max(max, cur[lable]), 0) * 100));
-            return makeRadarChart(lables, averages, minValues, maxValues)
+            console.timeEnd('callback loop')
+            // return makeRadarChart(lables, averages, minValues, maxValues)
+            return makeRadarChart(lables, a, min, max);
         }
         else if(response && response.constructor === Object){
             const lables = Object.keys(response).filter(key => targetFeatures.includes(key));
@@ -119,7 +130,7 @@ export function RadarChart({data}){ //tracks only
             return makeRadarChart(lables, values);
         }
     }, [response])
-
+    //console.time('render chart')
     return (
         <div style={Array.isArray(data) ? {width: '100vw', height: '50vh', marginTop: '10px'} : {position: 'absolute', top: '10%', width: '100%', height: '60%',backgroundColor: 'rgba(255,255,255, 0.2)', backdropFilter: 'blur(300px)', zIndex: 0}}>
             {(!response || (Array.isArray(response) && response.length == 0)) && <div>...Loading</div>}
