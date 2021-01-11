@@ -1,13 +1,34 @@
 import {useState, useEffect} from 'react';
 
+
 const afterHash = window.location.hash.substring(1); //get hash value from page url
 const hashes = afterHash.split("&").map(hash => hash.split("="))//split hash string into property, value pairs
 export const accessToken = hashes[0][1]
 
+
+// export function useFetch(urlsOrUrl, dependencies = []){
+    
+//     const [worker] = useState(new Worker('./fetchWorker.js'))
+//     const [response, setResponse] = useState(Array.isArray(urlsOrUrl) ? [] : null);
+//     useEffect(() => {
+//         worker.postMessage({urlsOrUrl, accessToken});
+//         worker.onmessage = e => {
+//             setResponse(e.data);
+//         }
+//         console.log(worker)
+//     }, dependencies)
+//     return response;
+// }
+
+
+
+(function draw() {
+    requestAnimationFrame(draw);
+})()
+
 export function useFetch(urlsOrUrl, dependencies = []){
     const [response, setResponse] = useState(Array.isArray(urlsOrUrl) ? [] : null);
     
-
     useEffect(() => {
         const fetchData = async (url) => {
             console.count("fetched");
@@ -45,3 +66,4 @@ export function useFetch(urlsOrUrl, dependencies = []){
 
   return response;
 }
+

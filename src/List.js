@@ -41,7 +41,6 @@ export function SongListItem({song, rank, globalPlaying}){
     
     return (
         <>
-        {console.log(playing)}
         <div className="listItem"  onClick={handleClick}>
             <div className={playing ? "flipCardInner rotateItem": "flipCardInner"}>
                 <div className="flipCardFront">
