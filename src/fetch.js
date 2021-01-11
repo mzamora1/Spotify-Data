@@ -38,6 +38,7 @@ export function useFetch(urlsOrUrl, dependencies = []){
                 });
                 requestAnimationFrame(() => {});
                 const json = await res.json(); 
+                requestAnimationFrame(() => {});
                 return json
             }
             catch(error){
