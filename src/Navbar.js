@@ -3,19 +3,19 @@ import {Link} from "react-router-dom";
 
 export default function Navbar() {
     const [isClicked, setIsClicked] = useState(false);
-    const handleClick = () => setIsClicked(!isClicked);
-    useEffect(() => {
+    const toggleClick = () => setIsClicked(!isClicked);
+    const setFalse = () => {
         window.scrollTo(0, 0)
-    }, [isClicked])
-    window.onbeforeunload = function(event) {
-        event.preventDefault();
-        event.returnValue = "If you click ok then the website will crash"
+        setIsClicked(false);
+    }
+    window.onbeforeunload = (e) => {
+       window.location.href(window.location.origin)
     }
     return (
         <header>
             <a className="logo" href="#top">Spotify Data</a>
             
-            <div className="hamburger" onClick={handleClick}>
+            <div className="hamburger" onClick={toggleClick}>
                 <div className={isClicked ? "line rotateLeft":"line"}></div>
                 <div className={isClicked ? "line remove":"line"}></div>
                 <div className={isClicked ? "line rotateRight":"line"}></div>
@@ -24,16 +24,16 @@ export default function Navbar() {
             <nav>    
                 <ul className={isClicked ? "list open" : "list"} >
                     <li className="list-item" name="top songs">
-                        <Link to="/topSongs" onClick={handleClick}>Top Songs</Link>
+                        <Link to="/topSongs" onClick={setFalse}>Top Songs</Link>
                     </li>
                     <li className="list-item" name="top artists">
-                        <Link to="/topArtists" onClick={handleClick}>Top Artists</Link>
+                        <Link to="/topArtists" onClick={setFalse}>Top Artists</Link>
                     </li>
                     <li className="list-item" name="reccomendations">
-                        <Link to="/reccomendations" onClick={handleClick}>Reccomendations</Link>
+                        <Link to="/reccomendations" onClick={setFalse}>Reccomendations</Link>
                     </li>
                     <li className="list-item" name="timeRange">
-                        <Link to="/" onClick={handleClick}>Select Time Range</Link>
+                        <Link to="/" onClick={setFalse}>Select Time Range</Link>
                     </li>
                 </ul>
             </nav>

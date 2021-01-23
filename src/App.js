@@ -9,12 +9,11 @@ import './App.css';
 import Navbar from "./Navbar";
 import Login from "./Login";
 import {PopularityChart, RadarChart} from "./Charts";
-import {SongListItem, ArtistListItem} from "./List"
+import {SongList, ArtistListItem} from "./List"
 import {accessToken, useFetch} from './fetch';
 
 export function App() {
   const [timeRange, setTimeRange] = useState("medium_term");
-  const [isPlaying, setIsPlaying] = useState(true);
   const songs = useFetch(`https://api.spotify.com/v1/me/top/tracks?time_range=${timeRange}`, [timeRange]);
   const artists = useFetch(`https://api.spotify.com/v1/me/top/artists?time_range=${timeRange}`, [timeRange]);
   const ids = [];
@@ -51,9 +50,7 @@ export function App() {
                   <h1 >Your Music Taste</h1>
                   <RadarChart data={songs.items}/>
                   <h1 style={{margin: '1em 0'}}>Your Top {songs.items.length} Songs In Order</h1>
-                  <div onClick={() => setIsPlaying(!isPlaying)}>
-                    {songs.items.map((data, index) => <SongListItem song={data} key={data.id} rank={index+1} globalPlaying={isPlaying}/>)}
-                  </div>
+                  <SongList songs={songs.items}/>
                 </div>
             </Route>
             <Route path="/topArtists">
@@ -68,9 +65,7 @@ export function App() {
                 <div style={{marginTop: "calc(80px + 1em)"}}>
                   <h1 style={{margin: "1em 0"}}>Songs you might like</h1>
                   <h3 style={{marginBottom: "1em"}}>Based on your top 5 songs</h3>
-                  <div onClick={() => setIsPlaying(!isPlaying)}>
-                    {reccomendations.tracks.map((data) => <SongListItem song={data} key={data.id} globalPlaying={isPlaying}/>)}
-                  </div>
+                  <SongList songs={reccomendations.tracks}/>
                 </div>
             </Route>
           </Switch>

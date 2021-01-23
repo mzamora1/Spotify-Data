@@ -23,6 +23,14 @@ const useAudio = url => {
     return [playing, setPlaying];
 };
 
+export function SongList({songs}){
+    const [isPlaying, setIsPlaying] = useState(true);
+    return (
+        <div onClick={() => setIsPlaying(!isPlaying)}>
+            {songs.map(song => <SongListItem song={song} key={song.id} globalPlaying={isPlaying}/>)}
+        </div>
+    )
+}
 
 export function SongListItem({song, rank, globalPlaying}){
     const {album, name, artists, preview_url} = song;

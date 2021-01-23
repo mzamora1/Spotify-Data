@@ -19,10 +19,7 @@ export const accessToken = hashes[0][1]
 //     }, dependencies)
 //     return response;
 // }
-function draw(){
-    setTimeout(() => requestAnimationFrame(draw), 1000/60)
-}
-draw();
+
 
 //console.log(new Worker('/fetchWorker.js'));
 export function useFetch(urlsOrUrl, dependencies = []){
@@ -30,22 +27,26 @@ export function useFetch(urlsOrUrl, dependencies = []){
     
     useEffect(() => {
         const fetchData = async (url) => {
-            console.count("fetched");
-            requestAnimationFrame(() => {});
+            let res;
             try{
-                const res = await fetch(url, {
+                res = await fetch(url, {
                     method: "GET",
                     headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json",
                         "Authorization": "Bearer " + accessToken
                     }
-                });
-                requestAnimationFrame(() => {});
+                })
                 const json = await res.json(); 
-                requestAnimationFrame(() => {});
                 return json
             }
             catch(error){
                 console.warn(error);
+                if(res?.status == 503) return fetchData(url)
+                if(res?.status == 429){
+                    console.log('rate limited')
+                    setTimeout(fetchData, res.headers.get('Retry-After')*1000, url)
+                }
             }
         };
         async function init(){
