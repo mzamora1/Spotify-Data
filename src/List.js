@@ -23,16 +23,16 @@ const useAudio = url => {
     return [playing, setPlaying];
 };
 
-export function SongList({songs}){
+export function SongList({songs, audioFeatures}){
     const [isPlaying, setIsPlaying] = useState(true);
     return (
         <div onClick={() => setIsPlaying(!isPlaying)}>
-            {songs.map(song => <SongListItem song={song} key={song.id} globalPlaying={isPlaying}/>)}
+            {songs.map((song, i) => <SongListItem song={song} key={song.id} globalPlaying={isPlaying} audioFeature={audioFeatures[i]}/>)}
         </div>
     )
 }
 
-export function SongListItem({song, rank, globalPlaying}){
+export function SongListItem({song, rank, globalPlaying, audioFeature}){
     const {album, name, artists, preview_url} = song;
     const [playing, setPlaying] = useAudio(preview_url);
     const [isClicked , setIsClicked] = useState(false);
@@ -65,7 +65,7 @@ export function SongListItem({song, rank, globalPlaying}){
                 </div>
                 <div className="flipCardBack">
                     <img src={album.images[0].url} width="100%" className="songImg" alt="album cover" style={{position:'relative', zIndex: 0}}/>
-                    <RadarChart data={song}/>
+                    <RadarChart data={audioFeature}/>
                 </div>
             </div>
         </div>
