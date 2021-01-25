@@ -28,24 +28,10 @@ export function App() {
     artists && songs && reccomendations && audioFeatures ? (//if data has been recieved
       <Router basename="/Spotify-Data">
         <div style={{overflow: "hidden", textAlign: 'center', color: "white"}}>
-          <Navbar/>
+          <Navbar setTimeRange={setTimeRange}/>
           <Switch>
-            <Route exact path={["/"]} >
-                <div className="timeRange">
-                  <h1>Select a time range</h1>
-                  <div style={{}}>
-                    <p>Based off of your streams from the past 4 weeks</p>
-                    <Link id="short_term" onClick={(event) => setTimeRange(event.target.id)} to="/topArtists">Short Term</Link>
-                    <p>Based off of your streams from the past 6 months</p>
-                    <Link id="medium_term" onClick={(event) => setTimeRange(event.target.id)} to="/topArtists">Medium Term</Link>
-                    <p>Based off of your all time streams, could be several years</p>
-                    <Link id="long_term" onClick={(event) => setTimeRange(event.target.id)} to="/topArtists">Long Term</Link>
-                  </div>
-                  
-                </div>
-            </Route>
             <Route exact path="/topSongs" >
-                <div style={{marginTop: "calc(80px + 1em)"}}>
+                <section>
                   <h1 >Your Top {songs.items.length} Tracks Ranked By Popularity</h1>
                   <PopularityChart data={songs.items}/>
                   <BasicMeter data={songs.items}/>
@@ -53,23 +39,23 @@ export function App() {
                   <RadarChart data={audioFeatures.audio_features}/>
                   <h1 style={{margin: '1em 0'}}>Your Top {songs.items.length} Songs In Order</h1>
                   <SongList songs={songs.items} audioFeatures={audioFeatures.audio_features} ranked={true}/>
-                </div>
+                </section>
             </Route>
-            <Route path="/topArtists">
-                <div style={{marginTop: "calc(80px + 1em)"}}>
+            <Route exact path={["/", "/topArtists"]}>
+                <section>
                   <h1 >Your Top {artists.items.length} Artists Ranked By Popularity</h1>
                   <PopularityChart data={artists.items}/>
                   <BasicMeter data={songs.items}/>
                   <h1 style={{margin: '1em 0'}}>Your Top {artists.items.length} Artists In Order</h1>
                   {artists.items.map((data, index) => <ArtistListItem artist={data} key={data.id} rank={index+1}/>)}
-                </div>
+                </section>
             </Route>
             <Route path="/reccomendations">
-                <div style={{marginTop: "calc(80px + 1em)"}}>
+                <section>
                   <h1 style={{margin: "1em 0"}}>Songs you might like</h1>
                   <h3 style={{marginBottom: "1em"}}>Based on your top 5 songs</h3>
                   <SongList songs={reccomendations.tracks} audioFeatures={audioFeatures.audio_features}/>
-                </div>
+                </section>
             </Route>
           </Switch>
         </div>

@@ -27,53 +27,13 @@ export function SongList({songs, audioFeatures, ranked}){
     const [isPlaying, setIsPlaying] = useState(true);
     return (
         <div onClick={() => setIsPlaying(!isPlaying)}>
-            {songs.map((song, i) => <NewSong song={song} key={song.id} globalPlaying={isPlaying} audioFeature={audioFeatures[i]} rank={ranked && i+1}/>)}
+            {songs.map((song, i) => <SongListItem song={song} key={song.id} globalPlaying={isPlaying} audioFeature={audioFeatures[i]} rank={ranked && i+1}/>)}
         </div>
     )
 }
 
-// export function SongListItem({song, rank, globalPlaying, audioFeature}){
-//     const {album, name, artists, preview_url} = song;
-//     const [playing, setPlaying] = useAudio(preview_url);
-//     const [isClicked , setIsClicked] = useState(false);
 
-//     const handleClick = () => setIsClicked(!isClicked)
-//     useEffect(() => {
-//        setPlaying(false);
-//        setIsClicked(false);
-//     }, [globalPlaying])
-    
-//     useEffect(() => {
-//         if(!globalPlaying && isClicked) setPlaying(true)
-//     }, [isClicked])
-    
-//     return (
-//         <>
-//         <div className="listItem"  onClick={handleClick}>
-//             <div className={playing ? "flipCardInner rotateItem": "flipCardInner"}>
-//                 <div className="flipCardFront">
-//                     <img src={album.images[0].url} width="100%" className="songImg" alt="album cover"/>
-//                     <div className="listInfo" style={playing ? {opacity: 0, transition: "opacity .3s ease-in"} : {transition: "opacity .3s ease-in"}}>
-//                         {preview_url && <i style={{marginLeft: "1em", fontSize: "clamp(20px, 3vw, 40px)"}} className={!playing ? "fas fa-play" : "fas fa-pause"} />}
-//                         <div style={{marginLeft: "1em", flexDirection: "column"}}>
-//                             <h1>{name}</h1>
-//                             <h2>By: {artists[0].name}</h2>
-//                             <h2>Album: {album.name}</h2>
-//                         </div>
-//                         <h1 className="rank">{rank && "#"+rank}</h1>
-//                     </div>
-//                 </div>
-//                 <div className="flipCardBack">
-//                     <img src={album.images[0].url} width="100%" className="songImg" alt="album cover" style={{position:'relative', zIndex: 0}}/>
-//                     <RadarChart data={audioFeature}/>
-//                 </div>
-//             </div>
-//         </div>
-//         </>
-//     )
-// }
-
-function NewSong({song, rank, globalPlaying, audioFeature}){
+function SongListItem({song, rank, globalPlaying, audioFeature}){
     const {album, name, artists, preview_url} = song;
     const [playing, setPlaying] = useAudio(preview_url);
     const [isClicked , setIsClicked] = useState(false);

@@ -12,7 +12,6 @@ body{
   overflow-x: hidden;
   background-color: #191414;
 }
-
 #svgWrapper{
   position: absolute;
   top: 30%;
@@ -89,8 +88,15 @@ header{
 .list{
   list-style: none;
   display: flex;
-  justify-content: space-evenly;
+  
   width: 70vw;
+  padding: 0 10px;
+}
+.list li{
+  transform: translateY(-60px);
+}
+.list li p{
+  margin-bottom: 1em;
 }
 a:not(.logo){
   border: white solid;
@@ -102,7 +108,7 @@ a:not(.logo){
   color: white;
   transition: all .3s ease 0s;
 }
-a:hover:not(.logo){
+a:hover:not(.logo),a.active{
   background-color: #1DB954;
   border: none;
   color: black;
@@ -116,6 +122,32 @@ a:hover:not(.logo){
   margin-left: 1.5em;
   cursor: pointer;
   z-index: 3;
+}
+
+footer{
+  background-color: black;
+  height: 10vh;
+  max-height: 200px;
+  width: 100%;
+  position: fixed;
+  bottom: 0px;
+  z-index: 1;
+  white-space: nowrap;
+}
+footer ul{
+  width: 50%;
+  list-style: none;
+  display: flex;
+  position: relative;
+  margin: 0 auto;
+  top: 25%;
+  justify-content: center;
+  align-items: center;
+}
+
+section{
+  margin-top: calc(80px + 1em);
+  margin-bottom: calc(10vh + 1em);
 }
 
 .loading{
