@@ -8,7 +8,7 @@ import {
 import './App.css';
 import Navbar from "./Navbar";
 import Login from "./Login";
-import {PopularityChart, RadarChart} from "./Charts";
+import {PopularityChart, RadarChart, BasicMeter} from "./Charts";
 import {SongList, ArtistListItem} from "./List"
 import {accessToken, useFetch} from './fetch';
 
@@ -48,16 +48,18 @@ export function App() {
                 <div style={{marginTop: "calc(80px + 1em)"}}>
                   <h1 >Your Top {songs.items.length} Tracks Ranked By Popularity</h1>
                   <PopularityChart data={songs.items}/>
+                  <BasicMeter data={songs.items}/>
                   <h1 >Your Music Taste</h1>
                   <RadarChart data={audioFeatures.audio_features}/>
                   <h1 style={{margin: '1em 0'}}>Your Top {songs.items.length} Songs In Order</h1>
-                  <SongList songs={songs.items} audioFeatures={audioFeatures.audio_features}/>
+                  <SongList songs={songs.items} audioFeatures={audioFeatures.audio_features} ranked={true}/>
                 </div>
             </Route>
             <Route path="/topArtists">
                 <div style={{marginTop: "calc(80px + 1em)"}}>
                   <h1 >Your Top {artists.items.length} Artists Ranked By Popularity</h1>
                   <PopularityChart data={artists.items}/>
+                  <BasicMeter data={songs.items}/>
                   <h1 style={{margin: '1em 0'}}>Your Top {artists.items.length} Artists In Order</h1>
                   {artists.items.map((data, index) => <ArtistListItem artist={data} key={data.id} rank={index+1}/>)}
                 </div>

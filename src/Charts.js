@@ -1,6 +1,5 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useRef, useEffect } from 'react'
 import Chart from "chart.js";
-import { useFetch } from './fetch';
 Chart.defaults.global.defaultFontColor = "white";
 
 function map(value, a, b, c, d){
@@ -10,7 +9,6 @@ function map(value, a, b, c, d){
 
 export function PopularityChart({data}){
     const canvasRef = useRef(null);
-    const basicPercent = (data.reduce((total, cur) => total + cur.popularity, 0) / data.length).toFixed(2);
     useEffect(() => {
         const popularityData = [], artistNames = [], colors = [];
         const maxPopularity = data.reduce(( max, cur ) => Math.max( max, cur.popularity), 0);
@@ -45,15 +43,19 @@ export function PopularityChart({data}){
 
     return (
         <>
-            <div className="canvasContainer">
-                <canvas style={{padding: '0 10px', paddingBottom: '3em'}} ref={canvasRef}/>
-            </div>
-            <div className="basicMeter">
-                <h2>Damn, {basicPercent}% Basic</h2>
+            <div className="popularityContainer">
+                <canvas ref={canvasRef}/>
             </div>
         </>
     )
 } //end of PopularityChart
+
+export function BasicMeter({data}){
+    const basicPercent = (data.reduce((total, cur) => total + cur.popularity, 0) / data.length).toFixed(2);
+    return (
+        <h2 className="basicMeter">Damn, {basicPercent}% Basic</h2>
+    )
+}
 
 
 export function RadarChart({data}){ //audio features only
@@ -125,9 +127,8 @@ export function RadarChart({data}){ //audio features only
     }, [data])
     
     return (
-        <div style={Array.isArray(data) ? {width: '100vw', height: '50vh', marginTop: '10px'} : {position: 'absolute', top: '10%', width: '100%', height: '60%',backgroundColor: 'rgba(255,255,255, 0.2)', backdropFilter: 'blur(300px)', zIndex: 0}}>
-            {/* {(!response || (Array.isArray(response) && response.length == 0)) && <div>...Loading</div>} */}
-            <canvas style={Array.isArray(data) ? {padding: '0 10px'} : {padding: '10px 10px'}} ref={canvasRef}/>
+        <div className="" style={Array.isArray(data) ? {width: '100vw', height: '100vw', marginTop: '10px', maxWidth: '640px', margin: '0 auto'} : {height:'calc(80vw)', maxHeight: 'calc(640px * 0.8)'}}>
+            <canvas style={{padding: '0 10px'}} ref={canvasRef}/>
         </div>
     )
 } //end of RadarChart
