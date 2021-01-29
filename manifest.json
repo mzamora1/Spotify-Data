@@ -1,6 +1,11 @@
 {
+  "developer": {
+    "name": "Michael Zamora",
+    "url": "https://github.com/mzamora1"
+  },
   "short_name": "Spotify Data",
   "name": "Spotify Data",
+  "description": "Display your spotify data from various times",
   "icons": [
     {
       "src": "favicon.ico",
