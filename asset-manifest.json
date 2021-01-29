@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/Spotify-Data/static/css/main.4683f393.chunk.css",
-    "main.js": "/Spotify-Data/static/js/main.9d1a6b2b.chunk.js",
-    "main.js.map": "/Spotify-Data/static/js/main.9d1a6b2b.chunk.js.map",
+    "main.css": "/Spotify-Data/static/css/main.1620ce44.chunk.css",
+    "main.js": "/Spotify-Data/static/js/main.de19423b.chunk.js",
+    "main.js.map": "/Spotify-Data/static/js/main.de19423b.chunk.js.map",
     "runtime-main.js": "/Spotify-Data/static/js/runtime-main.18e6be18.js",
     "runtime-main.js.map": "/Spotify-Data/static/js/runtime-main.18e6be18.js.map",
-    "static/js/2.8b092c94.chunk.js": "/Spotify-Data/static/js/2.8b092c94.chunk.js",
-    "static/js/2.8b092c94.chunk.js.map": "/Spotify-Data/static/js/2.8b092c94.chunk.js.map",
+    "static/js/2.29bdbb7c.chunk.js": "/Spotify-Data/static/js/2.29bdbb7c.chunk.js",
+    "static/js/2.29bdbb7c.chunk.js.map": "/Spotify-Data/static/js/2.29bdbb7c.chunk.js.map",
     "index.html": "/Spotify-Data/index.html",
     "service-worker.js": "/Spotify-Data/service-worker.js",
     "service-worker.js.map": "/Spotify-Data/service-worker.js.map",
-    "static/css/main.4683f393.chunk.css.map": "/Spotify-Data/static/css/main.4683f393.chunk.css.map",
-    "static/js/2.8b092c94.chunk.js.LICENSE.txt": "/Spotify-Data/static/js/2.8b092c94.chunk.js.LICENSE.txt"
+    "static/css/main.1620ce44.chunk.css.map": "/Spotify-Data/static/css/main.1620ce44.chunk.css.map",
+    "static/js/2.29bdbb7c.chunk.js.LICENSE.txt": "/Spotify-Data/static/js/2.29bdbb7c.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.18e6be18.js",
-    "static/js/2.8b092c94.chunk.js",
-    "static/css/main.4683f393.chunk.css",
-    "static/js/main.9d1a6b2b.chunk.js"
+    "static/js/2.29bdbb7c.chunk.js",
+    "static/css/main.1620ce44.chunk.css",
+    "static/js/main.de19423b.chunk.js"
   ]
 }
