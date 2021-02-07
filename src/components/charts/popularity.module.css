@@ -1,0 +1,6 @@
+.popContainer{
+    width: calc(100vw - 20px);
+    height: calc(100vh - 1em);
+    margin: 0 10px; 
+    margin-bottom: 1em;
+  }

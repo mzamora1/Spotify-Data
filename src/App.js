@@ -2,15 +2,20 @@ import React, {useState} from "react";
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link,
+  Route
 } from "react-router-dom";
 import './App.css';
-import Navbar from "./Navbar";
-import Login from "./Login";
-import {PopularityChart, RadarChart, BasicMeter} from "./Charts";
-import {SongList, ArtistListItem} from "./List"
-import {accessToken, useFetch} from './fetch';
+// import Navbar from "./Navbar";
+// import Login from "./Login";
+// import {PopularityChart, RadarChart, BasicMeter} from "./Charts";
+// import {SongList, ArtistListItem} from "./List"
+import {accessToken, useFetch} from './components/hooks/useFetch';
+
+import Login from './pages/login';
+import TopArtists from './pages/topArtists';
+import TopSongs from './pages/topSongs';
+import Reccomendations from './pages/reccomendations';
+import Navbar from './components/navbar'
 
 export function App() {
   const [timeRange, setTimeRange] = useState("medium_term");
@@ -31,31 +36,13 @@ export function App() {
           <Navbar setTimeRange={setTimeRange}/>
           <Switch>
             <Route exact path="/topSongs" >
-                <section>
-                  <h1 >Your Top {songs.items.length} Tracks Ranked By Popularity</h1>
-                  <PopularityChart data={songs.items}/>
-                  <BasicMeter data={songs.items}/>
-                  <h1 >Your Music Taste</h1>
-                  <RadarChart data={audioFeatures.audio_features}/>
-                  <h1 style={{margin: '1em 0'}}>Your Top {songs.items.length} Songs In Order</h1>
-                  <SongList songs={songs.items} audioFeatures={audioFeatures.audio_features} ranked={true}/>
-                </section>
+                <TopSongs songs={songs} audioFeatures={audioFeatures} />
             </Route>
             <Route exact path={["/", "/topArtists"]}>
-                <section>
-                  <h1 >Your Top {artists.items.length} Artists Ranked By Popularity</h1>
-                  <PopularityChart data={artists.items}/>
-                  <BasicMeter data={songs.items}/>
-                  <h1 style={{margin: '1em 0'}}>Your Top {artists.items.length} Artists In Order</h1>
-                  {artists.items.map((data, index) => <ArtistListItem artist={data} key={data.id} rank={index+1}/>)}
-                </section>
+                <TopArtists artists={artists} />
             </Route>
             <Route path="/reccomendations">
-                <section>
-                  <h1 style={{margin: "1em 0"}}>Songs you might like</h1>
-                  <h3 style={{marginBottom: "1em"}}>Based on your top 5 songs</h3>
-                  <SongList songs={reccomendations.tracks} audioFeatures={audioFeatures.audio_features}/>
-                </section>
+                <Reccomendations reccomendations={reccomendations} audioFeatures={audioFeatures} />
             </Route>
           </Switch>
         </div>

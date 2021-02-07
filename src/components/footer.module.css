@@ -1,0 +1,39 @@
+.footer{
+    background-color: black;
+    height: 10vh;
+    max-height: 200px;
+    width: 100%;
+    position: fixed;
+    bottom: 0px;
+    z-index: 1;
+    white-space: nowrap;
+}
+.footer ul{
+    width: 50%;
+    list-style: none;
+    display: flex;
+    position: relative;
+    margin: 0 auto;
+    top: 25%;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer ul a{
+    border: white solid;
+    padding: .5em 1em;
+    border-radius: 50px;
+    font-size: .9em;
+    letter-spacing: 2px;
+    text-decoration: none;
+    color: white;
+    transition: all .3s ease 0s;
+}
+
+.footer ul a.active{
+    background-color: #1DB954;
+    border: none;
+    color: black;
+    font-weight: 700;
+    box-shadow: 2px 3px 5px var(--green);
+}

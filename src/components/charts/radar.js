@@ -1,64 +1,9 @@
-import React, { useRef, useEffect } from 'react'
-import Chart from "chart.js";
+import {useRef, useEffect} from 'react'
+import Chart from 'chart.js'
+import {radar} from './radar.module.css'
 Chart.defaults.global.defaultFontColor = "white";
 
-function map(value, a, b, c, d){
-    value = (value - a) / (b - a); // first map value from (a..b) to (0..1)
-    return Math.round(c + value * (d - c)); // then map it from (0..1) to (c..d) and return it
-}
-
-export function PopularityChart({data}){
-    const canvasRef = useRef(null);
-    useEffect(() => {
-        const popularityData = [], artistNames = [], colors = [];
-        const maxPopularity = data.reduce(( max, cur ) => Math.max( max, cur.popularity), 0);
-        const minPopularity = data.reduce(( min, cur ) => Math.min( min, cur.popularity), 100);
-        data.forEach(item => { //gather data on each item
-            popularityData.push(item.popularity);
-            artistNames.push(item.name);
-            const lightness = map(item.popularity, minPopularity, maxPopularity, 15, 70)
-            colors.push(`hsl(143, 75%, ${lightness}%)`);
-        });
-
-        const chart = new Chart(canvasRef.current, {
-            type: "horizontalBar",
-            data: {
-                datasets: [{
-                    data: popularityData,
-                    backgroundColor: colors,
-                    barThickness: "flex"
-                }],
-                labels: artistNames 
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                legend: {
-                    display: false
-                }
-            }
-        });
-        return () => chart.destroy();
-    }, [data])
-
-    return (
-        <>
-            <div className="popularityContainer">
-                <canvas ref={canvasRef}/>
-            </div>
-        </>
-    )
-} //end of PopularityChart
-
-export function BasicMeter({data}){
-    const basicPercent = (data.reduce((total, cur) => total + cur.popularity, 0) / data.length).toFixed(2);
-    return (
-        <h2 className="basicMeter">Damn, {basicPercent}% Basic</h2>
-    )
-}
-
-
-export function RadarChart({data}){ //audio features only
+export default function RadarChart({data}){ //audio features only
     const canvasRef = useRef(null);
     const targetFeatures = ['danceability', 'energy', 'speechiness', 'acousticness', 'instrumentalness', 'liveness', 'valence'];
 
@@ -127,7 +72,7 @@ export function RadarChart({data}){ //audio features only
     }, [data])
     
     return (
-        <div className="" style={Array.isArray(data) ? {width: '100vw', height: '100vw', marginTop: '10px', maxWidth: '640px', margin: '0 auto'} : {height:'calc(80vw)', maxHeight: 'calc(640px * 0.8)'}}>
+        <div className={radar} style={Array.isArray(data) ? {width: '100vw', height: '100vw', marginTop: '10px', maxWidth: '640px', margin: '0 auto'} : {height:'calc(80vw)', maxHeight: 'calc(640px * 0.8)'}}>
             <canvas style={{padding: '0 10px'}} ref={canvasRef}/>
         </div>
     )

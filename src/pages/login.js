@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import anime from 'animejs';
+import login from './login.module.css'
 
 let array = Array(40); //will be used to generate floating bubbles
 array.fill(1); //must fill with values or else map will not work
 
-function Login() {
+export default function Login() {
     function redirect(){
         if(process.env.NODE_ENV == 'production'){
             window.location.href = "https://accounts.spotify.com/authorize?client_id=b48ae6f543f941a5be1084b45ed74b13&redirect_uri=https://mzamora1.github.io/Spotify-Data/&scope=user-top-read&response_type=token";
@@ -25,11 +26,10 @@ function Login() {
             delay: anime.stagger(150, {start: -1500})
         })
         .add({
-            targets: "#loginBtn",
+            targets: `.${login.btn}`,
             translateX: [-10, 10],
             opacity: [0, 1]
         }, "-=400")
-
     }, []);
 
     useEffect(()=> {
@@ -48,8 +48,8 @@ function Login() {
     }, [])
     return (
         <div className="login">
-            <div id="svgWrapper">
-                <svg id="spot" viewBox="0 0 500 200" preserveAspectRatio="xMinYMin meet" fill="none"> {/* svg was made using figma */}
+            <div className={login.svgWrapper}>
+                <svg className={login.logo} viewBox="0 0 500 200" preserveAspectRatio="xMinYMin meet" fill="none"> {/* svg was made using figma */}
                     <mask id="path-1-outside-1" maskUnits="userSpaceOnUse" x="0.639999" y="0.799988" width="489" height="89" fill="black">
                         <rect fill="white" x="0.639999" y="0.799988" width="489" height="89"/>
                         <path d="M21.08 88.2C14.68 88.2 9.84 86.4 6.56 82.8C3.28 79.12 1.64 73.88 1.64 67.08V62.28H14.12V68.04C14.12 73.48 16.4 76.2 20.96 76.2C23.2 76.2 24.88 75.56 26 74.28C27.2 72.92 27.8 70.76 27.8 67.8C27.8 64.28 27 61.2 25.4 58.56C23.8 55.84 20.84 52.6 16.52 48.84C11.08 44.04 7.28 39.72 5.12 35.88C2.96 31.96 1.88 27.56 1.88 22.68C1.88 16.04 3.56 10.92 6.92 7.31999C10.28 3.63999 15.16 1.79999 21.56 1.79999C27.88 1.79999 32.64 3.63999 35.84 7.31999C39.12 10.92 40.76 16.12 40.76 22.92V26.4H28.28V22.08C28.28 19.2 27.72 17.12 26.6 15.84C25.48 14.48 23.84 13.8 21.68 13.8C17.28 13.8 15.08 16.48 15.08 21.84C15.08 24.88 15.88 27.72 17.48 30.36C19.16 33 22.16 36.2 26.48 39.96C32 44.76 35.8 49.12 37.88 53.04C39.96 56.96 41 61.56 41 66.84C41 73.72 39.28 79 35.84 82.68C32.48 86.36 27.56 88.2 21.08 88.2Z"/>
@@ -76,13 +76,10 @@ function Login() {
                     <path d="M418.42 15H404.62V2.99999H445.42V15H431.62V87H418.42V15Z" stroke="#1DB954" strokeWidth="2" mask="url(#path-1-outside-1)"/>
                     <path d="M456.503 2.99999H474.383L488.063 87H474.863L472.463 70.32V70.56H457.463L455.063 87H442.823L456.503 2.99999ZM470.903 59.16L465.023 17.64H464.783L459.023 59.16H470.903Z" stroke="#1DB954" strokeWidth="2" mask="url(#path-1-outside-1)"/>
                 </svg>
-                <button id="loginBtn" onClick={redirect}>Login</button>
+                <button className={login.btn} onClick={redirect}>Login</button>
             </div>
             
-            {array.map((a, index) => <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" key={index} className="floatingBubble" style={{left: Math.random() * window.innerWidth, zIndex: -1}} alt="spotify logo"/>)}
+            {array.map((a, index) => <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" key={index} className={login.bubble} style={{left: Math.random() * window.innerWidth, zIndex: -1}} alt=""/>)}
         </div>
     )
 }
-
-export default Login
-
